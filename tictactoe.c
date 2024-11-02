@@ -14,6 +14,7 @@ struct queuestruct{
 } Xqueue,Oqueue;
 
 #include"wincheck.h"
+#include"printarray.h"
 
 void findnullandadd(struct queuestruct *currentqueue,int row,int x,int y){
     if (currentqueue->x==-100){
@@ -45,33 +46,7 @@ void pushlist(struct queuestruct *currentqueue){
 }
 
 
-void print_charry(char x[][n], int length){
-    printf("\u2554");
-    for (int j=0;j<n-1;j++){
-        printf("\u2550\u2550\u2550\u2566");
-    }
-    printf("\u2550\u2550\u2550\u2557\n");
-    for (int i=0;i<length-1;i++){
-        printf("\u2551");
-        for (int j=0;j<length;j++){
-            printf(" %c \u2551",x[i][j]);
-        }
-        printf("\n\u2560");
-        for(int j=0;j<length-1;j++){
-            printf("\u2550\u2550\u2550\u256C");
-        }
-        printf("\u2550\u2550\u2550\u2563\n");
-    }
-    printf("\u2551");
-    for (int j=0;j<length;j++){
-        printf(" %c \u2551",x[length-1][j]);
-    }
-    printf("\n\u255A");
-    for (int j=0;j<n-1;j++){
-        printf("\u2550\u2550\u2550\u2569");
-    }
-    printf("\u2550\u2550\u2550\u255D\n");
-}
+
 
 int string_to_num(char astring[1000]){
     int k=0;
@@ -99,24 +74,16 @@ int main(){
     scanf("%s",input);
 
     //Error check
-    bool errorcase=false;
     while(true){
-        for(int i=0;i<1000 && input[i]!='\0';i++){
-            if(input[i]<'0' || input[i]>'9'){
-                errorcase=true;
-                break;
-            }
-        }
-        if(errorcase){
-            errorcase=false;
-            printf("%s\nOnly numbers allowed!!!\nEnter N: ",input);
+        if(input[1]!='\0'|| input[0]>'9' || input[0]<='0'){
+            printf("Wrong input!!! Only 1-9 allowed.\nEnter N:");
             scanf("%s",input);
         }
         else{
             break;
         }
     }
-    n=string_to_num(input);
+    n=input[0]-'0';
     //Error check ends here
 
     char c[n][n];
@@ -140,16 +107,16 @@ int main(){
     }
     now=toupper(input[0]);
     //Error check ends here
-    printf("\nIMPORTANT: FOR GOD SAKE IF YOU ACCIDENTLY WRITE WRONG INPUT\nWRITE SOME NUMBER OR SOMETHING TILL IT ENDS\n");
-    printf("\nEXPLANATION:Program wants you to input comma as a seperator \nfor 2 different inputs, when you don't specify it,\nit will search for infinity\n\n");
+    printf("\n\033[31mIMPORTANT: FOR GOD SAKE IF YOU ACCIDENTLY WRITE WRONG INPUT\nWRITE SOME NUMBER OR SOMETHING TILL IT ENDS\n");
+    printf("\nEXPLANATION:Program wants you to input comma as a seperator \nfor 2 different inputs, when you don't specify it,\nit will search for infinity\033[0m\n\n");
     while(!checkifwin(c,now)){
-        printf("%c turn [x y]:",now);
+        printf("%c's turn [\033[32mX \033[31mY\033[0m]:",now);
         scanf("%s %s",input,input2);
         
         //Error check
         while (true){
             while(errorcheck(input) || errorcheck(input2)){
-                printf("\nBe careful with format! Wrong input!\n%c turn [x y]:",now);
+                printf("\nBe careful with format! Wrong input!\n%c turn [\033[32mX \033[31mY\033[0m]:",now);
                 scanf("%s %s",input,input2);
             }
             xx=string_to_num(input);
@@ -197,5 +164,5 @@ int main(){
     else{
         now='X';
     }
-    printf("%c is the winner!",now);
+    printf("%c is the Winner!",now);
 }
