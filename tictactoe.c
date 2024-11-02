@@ -6,15 +6,13 @@ int turnX=0;
 int turnO=0;
 int n;
 
-#include"wincheck.h"
-
 struct queuestruct{
     int x;
     int y;
     struct queuestruct *next;
 } Xqueue,Oqueue;
 
-
+#include"wincheck.h"
 
 void findnullandadd(struct queuestruct *currentqueue,int row,int x,int y){
     if (currentqueue->x==-100){
@@ -47,21 +45,31 @@ void pushlist(struct queuestruct *currentqueue){
 
 
 void print_charry(char x[][n], int length){
-    for (int i=0;i<length;i++){
-        for (int j=0;j<n;j++){
-            printf("--");
-        }
-
-        printf("-\n|");
+    printf("\u2554");
+    for (int j=0;j<n-1;j++){
+        printf("\u2550\u2550\u2550\u2566");
+    }
+    printf("\u2550\u2550\u2550\u2557\n");
+    for (int i=0;i<length-1;i++){
+        printf("\u2551");
         for (int j=0;j<length;j++){
-            printf("%c|",x[i][j]);
+            printf(" %c \u2551",x[i][j]);
         }
-        printf("\n");
+        printf("\n\u2560");
+        for(int j=0;j<length-1;j++){
+            printf("\u2550\u2550\u2550\u256C");
+        }
+        printf("\u2550\u2550\u2550\u2563\n");
     }
-    for (int j=0;j<n;j++){
-        printf("--");
+    printf("\u2551");
+    for (int j=0;j<length;j++){
+        printf(" %c \u2551",x[length-1][j]);
     }
-    printf("-\n");
+    printf("\n\u255A");
+    for (int j=0;j<n-1;j++){
+        printf("\u2550\u2550\u2550\u2569");
+    }
+    printf("\u2550\u2550\u2550\u255D\n");
 }
 
 int main(){
