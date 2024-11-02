@@ -96,7 +96,7 @@ int main(){
     extern int n;
     char now,input[1000],input2[1000];
     printf("Enter N:");
-    scanf("%s",&input);
+    scanf("%s",input);
 
     //Error check
     bool errorcase=false;
@@ -110,7 +110,7 @@ int main(){
         if(errorcase){
             errorcase=false;
             printf("%s\nOnly numbers allowed!!!\nEnter N: ",input);
-            scanf("%s",&input);
+            scanf("%s",input);
         }
         else{
             break;
@@ -136,7 +136,7 @@ int main(){
     //Error check
     while (input[1]!='\0' || (input[0]!='X' && input[0]!='x' && input[0]!='O' && input[0]!='o')){
         printf("Wrong Input!!!\n\nWho is going to start[X/O]:");
-        scanf(" %s",&input);
+        scanf(" %s",input);
     }
     now=toupper(input[0]);
     //Error check ends here
@@ -144,13 +144,13 @@ int main(){
     printf("\nEXPLANATION:Program wants you to input comma as a seperator \nfor 2 different inputs, when you don't specify it,\nit will search for infinity\n\n");
     while(!checkifwin(c,now)){
         printf("%c turn [x y]:",now);
-        scanf("%s %s",&input,&input2);
+        scanf("%s %s",input,input2);
         
         //Error check
         while (true){
             while(errorcheck(input) || errorcheck(input2)){
                 printf("\nBe careful with format! Wrong input!\n%c turn [x y]:",now);
-                scanf("%s %s",&input,&input2);
+                scanf("%s %s",input,input2);
             }
             xx=string_to_num(input);
             yy=string_to_num(input2);
