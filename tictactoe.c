@@ -1,39 +1,42 @@
 #include<stdbool.h>
 #include<stdio.h>
 #include<stdlib.h>
+
 int turnX=0;
 int turnO=0;
 int n;
 
-struct queuee{
+#include"wincheck.h"
+
+struct queuestruct{
     int x;
     int y;
-    struct queuee *next;
+    struct queuestruct *next;
 } Xqueue,Oqueue;
 
 
 
-void findnullandadd(struct queuee *queueee,int row,int x,int y){
-    if (queueee->x==-100){
-        queueee->x=x;
-        queueee->y=y;
+void findnullandadd(struct queuestruct *currentqueue,int row,int x,int y){
+    if (currentqueue->x==-100){
+        currentqueue->x=x;
+        currentqueue->y=y;
         return;
     }
-    while (queueee->next != NULL && row!=n) {
-        queueee = queueee->next;
+    while (currentqueue->next != NULL && row!=n) {
+        currentqueue = currentqueue->next;
         row++;
     }
-    queueee->next=(struct queuee *)malloc(sizeof(struct queuee));
-    queueee->next->x = x;
-    queueee->next->y = y;
-    queueee->next->next = NULL;
+    currentqueue->next=(struct queuestruct *)malloc(sizeof(struct queuestruct));
+    currentqueue->next->x = x;
+    currentqueue->next->y = y;
+    currentqueue->next->next = NULL;
 }
 
-void pushlist(struct queuee *queueee){
-    if (queueee == NULL || queueee->next == NULL){
+void pushlist(struct queuestruct *currentqueue){
+    if (currentqueue == NULL || currentqueue->next == NULL){
         return;
     }
-    struct queuee *current=queueee;
+    struct queuestruct *current=currentqueue;
     while(current->next !=NULL){
         current->x=current->next->x;
         current->y=current->next->y;
@@ -42,106 +45,6 @@ void pushlist(struct queuee *queueee){
     return;
 }
 
-int checkifwin(char x[][n],char c){
-    bool horizontaltest=true, verticaltest=true, obiritest=true;
-    int loc=-1;
-    if (c=='O' && turnX==n){
-
-        for (int i=0;i<n;i++){
-            if (x[0][i]=='X'){
-                loc=i;
-                break;
-            }
-        }
-        if (loc==0){
-            for (int i=0;i<n;i++){
-                if(x[0][i]!='X'){
-                    horizontaltest=false;
-                }
-                if(x[i][0]!='X'){
-                    verticaltest=false;
-                }
-                if(x[i][i]!='X'){
-                    obiritest=false;
-                }
-            }
-            return horizontaltest | verticaltest | obiritest;
-        }
-        else if (loc==n-1){
-            for (int i=n-1;i>=0;i--){
-                if(x[i][n-1]!='X'){
-                    horizontaltest=false;
-                }
-                if(x[0][i]!='X'){
-                    verticaltest=false;
-                }
-                if(x[i][n-i+1]!='X'){
-                    obiritest=false;
-                }
-            }
-            return horizontaltest | verticaltest | obiritest;
-
-        }
-        else if(loc!=-1){
-            for (int i=0;i<n;i++){
-                if(x[i][loc]!='X'){
-                    verticaltest=false;
-                }
-            }
-            return verticaltest;
-
-        }
-        return 0;
-    }
-    else if (c=='X' && turnO==n){
-        for (int i=0;i<n;i++){
-            if (x[0][i]=='O'){
-                loc=i;
-                break;
-            }
-        }
-        if (loc==0){
-            for (int i=0;i<n;i++){
-                if(x[0][i]!='O'){
-                    horizontaltest=false;
-                }
-                if(x[i][0]!='O'){
-                    verticaltest=false;
-                }
-                if(x[i][i]!='O'){
-                    obiritest=false;
-                }
-            }
-            return horizontaltest | verticaltest | obiritest;
-        }
-        else if (loc==n-1){
-            for (int i=n-1;i>=0;i--){
-                if(x[i][n-1]!='O'){
-                    horizontaltest=false;
-                }
-                if(x[0][i]!='O'){
-                    verticaltest=false;
-                }
-                if(x[i][n-i-1]!='O'){
-                    obiritest=false;
-                }
-            }
-            return horizontaltest | verticaltest | obiritest;
-
-        }
-        else if(loc!=-1){
-            for (int i=0;i<n;i++){
-                if(x[i][loc]!='O'){
-                    verticaltest=false;
-                }
-            }
-            return verticaltest;
-
-        }
-        return 0;
-    }
-    return 0;
-}
 
 void print_charry(char x[][n], int length){
     for (int i=0;i<length;i++){
@@ -172,7 +75,7 @@ int main(){
         }
     }
     print_charry(c, n);
-    extern struct queuee Xqueue,Oqueue;
+    extern struct queuestruct Xqueue,Oqueue;
     Xqueue.x=-100;
     Oqueue.x=-100;
     char now;
