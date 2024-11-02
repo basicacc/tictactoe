@@ -42,9 +42,23 @@ int checkifwin(char x[][n],char c){
         for (int i=0;i<n;i++){
             if(x[i][loc]!=c){
                 verticaltest=false;
+                break;
             }
         }
         return verticaltest;
+    }
+    else{
+        for (int i=1;i<n;i++){
+            if(x[i][0]==c){
+                for(int j=1;j<n;j++){
+                    if(x[i][j]!=c){
+                        verticaltest=false;
+                        break;
+                    }
+                }
+                return verticaltest;
+            }
+        }
     }
     return 0;
 }
