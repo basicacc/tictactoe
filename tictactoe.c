@@ -154,7 +154,7 @@ int main(){
             }
             xx=string_to_num(input);
             yy=string_to_num(input2);
-            if(xx>0 && xx<=n && yy>0 && yy<=n){
+            if(xx>0 && xx<=n && yy>0 && yy<=n && c[xx-1][yy-1]==' '){
                 break;
             }
             input[0]='\0'; //creating error so loop can repeat
