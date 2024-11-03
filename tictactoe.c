@@ -3,6 +3,8 @@
 #include<stdlib.h>
 #include<ctype.h>
 #include<string.h>
+#include<locale.h>
+
 int turnX=0;
 int turnO=0;
 int n;
@@ -80,13 +82,46 @@ bool errorforname(char inputtocheck[200]){
 
 #include"playgame.h"
 
-int main(){
+int main(int argc,char* argv[]){
+    int iswindows=0;
+    char input[200];
+    setlocale(LC_ALL, "");
     #ifdef _WIN32
-        system("chcp 65001");
+        iswindows=1;
+        system("chcp 65001 > nul");
     #endif
-    
+
+    printf("Want some music? [Y/N]:");
+    scanf("%s",input);
+    while (input[1]!='\0' || (input[0]!='y' && input[0]!='Y' && input[0]!='n' && input[0]!='N')){
+        printf("Wrong Input!!! Only Y/N allowed!\nWant some music? [Y/N]: ");
+        scanf("%s",input);
+    }
+    if(input[0]=='y' || input[0]=='Y'){
+        char systemcommand[200];
+        if(!iswindows){
+            sprintf(systemcommand,"ls --color %sMusics",argv[0]);
+            printf("\n");
+            system(systemcommand);
+            printf("\nWhich music you want? [name]:");
+            scanf("%s",input);
+            sprintf(systemcommand,"mpg123 %sMusics/%s -q > /dev/null 2>ErrorFile &",argv[0],input);
+            system(systemcommand);
+            printf("\nIn case you don't hear anything check ErrorFile!\n");
+        }
+        else{
+            sprintf(systemcommand,"dir %sMusics",argv[0]);
+            printf("\n");
+            system(systemcommand);
+            printf("\nWhich music you want? [name]:");
+            scanf("%s",input);
+            sprintf(systemcommand,"start wmplayer %sMusics/%s 2>ErrorFile",argv[0],input);
+            system(systemcommand);
+            printf("\nIn case you don't hear anything check ErrorFile!\n");
+        }
+    }
     char Whoseturn[200];
-    printf("Player 1 [name]:");
+    printf("\nPlayer 1 [name]:");
     scanf("%s",Player1);
     while(errorforname(Player1)){
 
@@ -102,7 +137,6 @@ int main(){
     }
     strcpy(Whoseturn,Player1);
     while(true){
-        char input[100];
         playgame(Whoseturn);
         printf("\nDo you want to play again? [Y/N]: ");
         scanf("%s",input);
