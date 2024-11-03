@@ -87,7 +87,7 @@ int main(int argc,char* argv[]){
     char input[200];
     #ifdef _WIN32
         iswindows=1;
-        system("chcp 65001");
+        system("chcp 65001 > nul");
     #endif
 
     printf("Want some music? [Y/N]:");
