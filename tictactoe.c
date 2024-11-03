@@ -85,7 +85,6 @@ bool errorforname(char inputtocheck[200]){
 int main(int argc,char* argv[]){
     int iswindows=0;
     char input[200];
-    setlocale(LC_ALL, "");
     #ifdef _WIN32
         iswindows=1;
         system("chcp 65001");
