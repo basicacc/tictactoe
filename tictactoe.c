@@ -81,6 +81,10 @@ bool errorforname(char inputtocheck[200]){
 #include"playgame.h"
 
 int main(){
+    #ifdef _WIN32
+        system("chcp 65001");
+    #endif
+    
     char Whoseturn[200];
     printf("Player 1 [name]:");
     scanf("%s",Player1);
