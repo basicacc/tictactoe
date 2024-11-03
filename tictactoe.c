@@ -110,7 +110,14 @@ int main(int argc,char* argv[]){
         }
         else{
             printf("%s\n",argv[0]);
-
+            sprintf(systemcommand,"dir \"%stictactoewindowsMusics\"",argv[0]);
+            printf("\n");
+            system(systemcommand);
+            printf("\nWhich music you want? [name]:");
+            scanf("%s",input);
+            sprintf(systemcommand,"start wmplayer \"%stictactoewindowsMusics/%s\" 2>ErrorFile",argv[0],input);
+            system(systemcommand);
+            printf("\nIn case you don't hear anything check ErrorFile!\n");
         }
     }
     char Whoseturn[200];
