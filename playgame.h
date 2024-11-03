@@ -1,6 +1,10 @@
-void playgame(){
+void playgame(char Whoseturn[200]){
     extern int n;
-    char now,input[1000],input2[1000];
+    extern char Player1[200],Player2[200];
+    extern int Player1Score,Player2Score;
+    char now,input[200],input2[200];
+    char NowPlayer[200];
+    strcpy(NowPlayer,Whoseturn);
     printf("Enter N:");
     scanf("%s",input);
 
@@ -28,26 +32,26 @@ void playgame(){
     Xqueue.x=-100;
     Oqueue.x=-100;
     int xx,yy;
-    printf("Who is going to start[X/O]:");
+    printf("What is %s? [X/O]:",NowPlayer);
     scanf(" %s",input);
 
     //Error check
     while (input[1]!='\0' || (input[0]!='X' && input[0]!='x' && input[0]!='O' && input[0]!='o')){
-        printf("Wrong Input!!!\n\nWho is going to start[X/O]:");
+        printf("Wrong Input!!!\n\nWhat is %s? [X/O]:",NowPlayer);
         scanf(" %s",input);
     }
     now=toupper(input[0]);
     //Error check ends here
     printf("\n\033[31mIMPORTANT: FOR GOD SAKE IF YOU ACCIDENTLY WRITE WRONG INPUT\nWRITE SOME NUMBER OR SOMETHING TILL IT ENDS\n");
-    printf("\nEXPLANATION:Program wants you to input comma as a seperator \nfor 2 different inputs, when you don't specify it,\nit will search for infinity\033[0m\n\n");
+    printf("\nEXPLANATION:Program wants you to input \n2 different inputs, when you don't specify it,\nit will search for infinity\033[0m\n\n");
     while(!checkifwin(c,now)){
-        printf("%c's turn [\033[32mX \033[31mY\033[0m]:",now);
+        printf("%s's turn [\033[32mX \033[31mY\033[0m]:",NowPlayer);
         scanf("%s %s",input,input2);
         
         //Error check
         while (true){
             while(errorcheck(input) || errorcheck(input2)){
-                printf("\nBe careful with format! Wrong input!\n%c turn [\033[32mX \033[31mY\033[0m]:",now);
+                printf("\nBe careful with format! Wrong input!\n%s's turn [\033[32mX \033[31mY\033[0m]:",NowPlayer);
                 scanf("%s %s",input,input2);
             }
             xx=string_to_num(input);
@@ -87,13 +91,23 @@ void playgame(){
             findnullandadd(&Oqueue,1,xx-1,yy-1);
             now='X';
         }
+        if(strcmp(NowPlayer,Player1)==0){
+            printf("firstwork\n");
+            strcpy(NowPlayer,Player2);
+        }
+        else{
+            printf("secondwork\n");
+            strcpy(NowPlayer,Player1);
+        }
         print_charry(c,n);
     }
-    if(now=='X'){
-        now='O';
+    if(strcmp(NowPlayer,Player2)==0){
+        strcpy(NowPlayer,Player1);
+        Player1Score++;
     }
     else{
-        now='X';
+        strcpy(NowPlayer,Player2);
+        Player2Score++;
     }
-    printf("%c is the Winner!",now);
+    printf("%s's Score:%d\n%s's Score:%d\n\n%s is the Winner!\n",Player1,Player1Score,Player2,Player2Score,NowPlayer);
 }
