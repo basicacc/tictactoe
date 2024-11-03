@@ -99,22 +99,22 @@ int main(int argc,char* argv[]){
     if(input[0]=='y' || input[0]=='Y'){
         char systemcommand[200];
         if(!iswindows){
-            sprintf(systemcommand,"ls --color %sMusics",argv[0]);
+            sprintf(systemcommand,"ls --color \"%sMusics\"",argv[0]);
             printf("\n");
             system(systemcommand);
             printf("\nWhich music you want? [name]:");
             scanf("%s",input);
-            sprintf(systemcommand,"mpg123 %sMusics/%s -q > /dev/null 2>ErrorFile &",argv[0],input);
+            sprintf(systemcommand,"mpg123 \"%sMusics/%s\" -q > /dev/null 2>ErrorFile &",argv[0],input);
             system(systemcommand);
             printf("\nIn case you don't hear anything check ErrorFile!\n");
         }
         else{
-            sprintf(systemcommand,"dir %sMusics",argv[0]);
+            sprintf(systemcommand,"dir \"%sMusics\"",argv[0]);
             printf("\n");
             system(systemcommand);
             printf("\nWhich music you want? [name]:");
             scanf("%s",input);
-            sprintf(systemcommand,"start wmplayer %sMusics/%s 2>ErrorFile",argv[0],input);
+            sprintf(systemcommand,"start wmplayer \"%sMusics/%s\" 2>ErrorFile",argv[0],input);
             system(systemcommand);
             printf("\nIn case you don't hear anything check ErrorFile!\n");
         }
