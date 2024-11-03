@@ -144,6 +144,12 @@ int main(int argc,char* argv[]){
             scanf("%s",input);
         }
         if(input[0]=='n' || input[1]=='N'){
+            if(!iswindows){
+                system("killall mpg123");
+            }
+            else{
+                system("taskkill /IM wmplayer.exe /F");
+            }
             printf("Goodbye!");
             break;
         }
