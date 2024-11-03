@@ -1,5 +1,5 @@
 int checkifwin(char x[][n],char c){
-    bool horizontaltest=true, verticaltest=true, obiritest=true;
+    bool horizontaltest=true, verticaltest=true, diagonaltest=true;
     int loc=-1;
     if (c=='O') c='X';
     else c='O';
@@ -18,10 +18,10 @@ int checkifwin(char x[][n],char c){
                 verticaltest=false;
             }
             if(x[i][i]!=c){
-                obiritest=false;
+                diagonaltest=false;
             }
         }
-        return horizontaltest | verticaltest | obiritest;
+        return horizontaltest | verticaltest | diagonaltest;
     }
     else if (loc==n-1){
         for (int i=n-1;i>=0;i--){
@@ -31,11 +31,11 @@ int checkifwin(char x[][n],char c){
             if(x[0][i]!=c){
                 verticaltest=false;
             }
-            if(x[i][n-i+1]!=c){
-                obiritest=false;
+            if(x[i][n-i-1]!=c){
+                diagonaltest=false;
             }
         }
-        return horizontaltest | verticaltest | obiritest;
+        return horizontaltest | verticaltest | diagonaltest;
 
     }
     else if(loc!=-1){
