@@ -109,12 +109,13 @@ int main(int argc,char* argv[]){
             printf("\nIn case you don't hear anything check ErrorFile!\n");
         }
         else{
-            sprintf(systemcommand,"dir \"%sMusics\"",argv[0]);
+            printf("%s\n",argv[0]);
+            sprintf(systemcommand,"dir \"%stictactoewindowsMusics\"",argv[0]);
             printf("\n");
             system(systemcommand);
             printf("\nWhich music you want? [name]:");
             scanf("%s",input);
-            sprintf(systemcommand,"start wmplayer \"%sMusics/%s\" 2>ErrorFile",argv[0],input);
+            sprintf(systemcommand,"start wmplayer \"%stictactoewindowsMusics/%s\" 2>ErrorFile",argv[0],input);
             system(systemcommand);
             printf("\nIn case you don't hear anything check ErrorFile!\n");
         }
