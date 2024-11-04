@@ -147,7 +147,7 @@ int main(int argc,char* argv[]){
             system(systemcommand);
             printf("\nWhich music you want? [name]:");
             getlinecustom(input);
-            sprintf(systemcommand,"start wmplayer \"%s\\Musics\\%s\" 2>\"%s\\.ErrorFile\"",argv[0],input,argv[0]);
+            sprintf(systemcommand,"start wmplayer //MIN \"%s\\Musics\\%s\" 2>\"%s\\.ErrorFile\"",argv[0],input,argv[0]);
             system(systemcommand);
             printf("\nIn case you don't hear anything check %s\\.ErrorFile in your user's home directory\n",argv[0]);
         }
