@@ -149,7 +149,7 @@ int main(int argc,char* argv[]){
             getlinecustom(input);
             sprintf(systemcommand,"start wmplayer \"%s\\Musics\\%s\" 2>%s\\.ErrorFile",argv[0],input,argv[0]);
             system(systemcommand);
-            printf("\nIn case you don't hear anything check .tictactoe\\ErrorFile in your user's home directory\n");
+            printf("\nIn case you don't hear anything check %s\\.ErrorFile in your user's home directory\n",argv[0]);
         }
     }
     char Whoseturn[200];
