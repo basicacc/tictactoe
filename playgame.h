@@ -42,7 +42,7 @@ void playgame(char Whoseturn[200]){
     }
     now=toupper(input[0]);
     while(!checkifwin(c,now)){
-        printf("%s's turn [\033[32mX \033[31mY\033[0m]:",NowPlayer);
+        printf("%s's [%c] turn [\033[32mX \033[31mY\033[0m]:",NowPlayer,now);
         getlinecustom(input);
         //Error check
         while (true){
