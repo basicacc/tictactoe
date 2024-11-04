@@ -3,7 +3,6 @@
 #include<stdlib.h>
 #include<ctype.h>
 #include<string.h>
-#include<locale.h>
 
 int turnX=0;
 int turnO=0;
@@ -50,6 +49,14 @@ void pushlist(struct queuestruct *currentqueue){
 }
 
 
+void getlinecustom(char result[200]){
+    char inputnow;
+    int i;
+    for(i=0;(inputnow=getchar())!='\n' && i<200;i++){
+        result[i]=inputnow;
+    }
+    result[i]='\0';
+}
 
 
 int string_to_num(char astring[200]){
@@ -61,12 +68,20 @@ int string_to_num(char astring[200]){
     return k;
 }
 
-bool errorcheck(char inputtocheck[200]){
+bool errorcheck(char inputtocheck[200],char input2[200]){
     if(inputtocheck[0]=='\0') return 1;
-    for (int i=0;i<200 && inputtocheck[i]!='\0';i++){
+    int i;
+    for (i=0;i<200 && inputtocheck[i]!='\0' && inputtocheck[i]!=' ';i++){
         if (inputtocheck[i]<'0'|| inputtocheck[i]>'9'){
             return 1;
         }
+    }
+    inputtocheck[i]='\0';
+    for (int j=i+1;j<200 && inputtocheck[j]!='\0' && inputtocheck[j]!=' ';j++){
+        if (inputtocheck[j]<'0'|| inputtocheck[j]>'9'){
+            return 1;
+        }
+        input2[j-i-1]=inputtocheck[j];
     }
     return 0;
 }
@@ -76,6 +91,9 @@ bool errorforname(char inputtocheck[200]){
         if (isalpha(inputtocheck[i])==0){
             return true;
         }
+    }
+    if(inputtocheck[0]=='\0'){
+        return true; //if input is empty
     }
     return false;
 }
@@ -91,10 +109,10 @@ int main(int argc,char* argv[]){
     #endif
 
     printf("Want some music? [Y/N]:");
-    scanf("%s",input);
+    getlinecustom(input);
     while (input[1]!='\0' || (input[0]!='y' && input[0]!='Y' && input[0]!='n' && input[0]!='N')){
-        printf("Wrong Input!!! Only Y/N allowed!\nWant some music? [Y/N]: ");
-        scanf("%s",input);
+        printf("Wrong Input!!! Only Y/N allowed!\nWant some music? [Y/N]:");
+        getlinecustom(input);
     }
     if(input[0]=='y' || input[0]=='Y'){
         char systemcommand[200];
@@ -103,17 +121,18 @@ int main(int argc,char* argv[]){
             printf("\n");
             system(systemcommand);
             printf("\nWhich music you want? [name]:");
-            scanf("%s",input);
-            sprintf(systemcommand,"mpg123 \"%sMusics/%s\" -q > /dev/null 2>ErrorFile &",argv[0],input);
+            getlinecustom(input);
+            system("mkdir $HOME/.tictactoe");
+            sprintf(systemcommand,"mpg123 %sMusics/%s -q 1 > /dev/null 2>$HOME/.tictactoe/.ErrorFile &",argv[0],input);
             system(systemcommand);
-            printf("\nIn case you don't hear anything check ErrorFile!\n");
+            printf("\nIn case you don't hear anything check ~/.tictactoe/ErrorFile!\n");
         }
         else{
             sprintf(systemcommand,"dir \"%sMusics\" /B",argv[0]);
             printf("\n");
             system(systemcommand);
             printf("\nWhich music you want? [name]:");
-            scanf("%s",input);
+            getlinecustom(input);
             sprintf(systemcommand,"start wmplayer \"%sMusics/%s\" 2>ErrorFile",argv[0],input);
             system(systemcommand);
             printf("\nIn case you don't hear anything check ErrorFile!\n");
@@ -121,27 +140,27 @@ int main(int argc,char* argv[]){
     }
     char Whoseturn[200];
     printf("\nPlayer 1 [name]:");
-    scanf("%s",Player1);
+    getlinecustom(Player1);
     while(errorforname(Player1)){
 
         printf("\nWrong input!!! Only a/A-z/Z allowed!\nPlayer 1 [name]:");
-        scanf("%s",Player1);
+        getlinecustom(Player1);
     }
     printf("Player 2 [name]:");
-    scanf("%s",Player2);
+    getlinecustom(Player2);
     while(errorforname(Player2)){
 
-        printf("\nWrong input!!! Only a/A-z/Z allowed!\nPlayer 1 [name]:");
-        scanf("%s",Player2);
+        printf("\nWrong input!!! Only a/A-z/Z allowed!\nPlayer 2 [name]:");
+        getlinecustom(Player2);
     }
     strcpy(Whoseturn,Player1);
     while(true){
         playgame(Whoseturn);
         printf("\nDo you want to play again? [Y/N]: ");
-        scanf("%s",input);
+        getlinecustom(input);
         while (input[1]!='\0' || (input[0]!='y' && input[0]!='Y' && input[0]!='n' && input[0]!='N')){
             printf("Wrong Input!!! Only Y/N allowed!\nDo you want to play again? [Y/N]: ");
-            scanf("%s",input);
+            getlinecustom(input);
         }
         if(input[0]=='n' || input[1]=='N'){
             if(!iswindows){
