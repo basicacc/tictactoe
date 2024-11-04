@@ -143,7 +143,7 @@ int main(int argc,char* argv[]){
             getlinecustom(input);
             sprintf(systemcommand,"mkdir %%USERPROFILE%%\\.tictactoe 2>nul");
             system(systemcommand);
-            sprintf(systemcommand,"start  /B /min wmplayer \"%sMusics/%s\" 2>%%USERPROFILE%%\\.tictactoe\\ErrorFile",argv[0],input);
+            sprintf(systemcommand,"start  /B /MIN wmplayer \"%sMusics/%s\" 2>%%USERPROFILE%%\\.tictactoe\\ErrorFile",argv[0],input);
             system(systemcommand);
             printf("\nIn case you don't hear anything check .tictactoe\\ErrorFile in your user's home directory\n");
         }
