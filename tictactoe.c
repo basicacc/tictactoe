@@ -3,10 +3,13 @@
 #include<stdlib.h>
 #include<ctype.h>
 #include<string.h>
+#include <signal.h>
+#include <unistd.h>
 
 int turnX=0;
 int turnO=0;
 int n;
+int iswindows=0;
 
 char Player1[200],Player2[200];
 int Player1Score=0,Player2Score=0;
@@ -18,6 +21,7 @@ struct queuestruct{
 
 #include"wincheck.h"
 #include"printarray.h"
+
 
 void findnullandadd(struct queuestruct *currentqueue,int row,int x,int y){
     if (currentqueue->x==-100){
@@ -91,15 +95,26 @@ bool errorforname(char inputtocheck[200]){
     return false;
 }
 
+void handle_sigint(int sig) { // Used Chatgpt to learn :(
+    if(iswindows){
+        system("taskkill /IM wmplayer.exe /F");
+    }
+    else{
+        system("killall mpg123");
+    }
+    exit(0); 
+}
+
 #include"playgame.h"
 
 int main(int argc,char* argv[]){
-    int iswindows=0;
     char input[200];
     #ifdef _WIN32
         iswindows=1;
         system("chcp 65001 > nul");
     #endif
+
+    signal(SIGINT, handle_sigint);
 
     printf("Want some music? [Y/N]:");
     getlinecustom(input);
@@ -128,7 +143,7 @@ int main(int argc,char* argv[]){
             getlinecustom(input);
             sprintf(systemcommand,"mkdir %%USERPROFILE%%\\.tictactoe 2>nul");
             system(systemcommand);
-            sprintf(systemcommand,"start wmplayer \"%sMusics/%s\" 2>%%USERPROFILE%%\\.tictactoe\\ErrorFile",argv[0],input);
+            sprintf(systemcommand,"start  /B /min wmplayer \"%sMusics/%s\" 2>%%USERPROFILE%%\\.tictactoe\\ErrorFile",argv[0],input);
             system(systemcommand);
             printf("\nIn case you don't hear anything check .tictactoe\\ErrorFile in your user's home directory\n");
         }
