@@ -143,7 +143,7 @@ int main(int argc,char* argv[]){
             getlinecustom(input);
             sprintf(systemcommand,"mkdir %%USERPROFILE%%\\.tictactoe 2>nul");
             system(systemcommand);
-            sprintf(systemcommand,"powershell -Command \"Start-Process wmplayer -ArgumentList \'%sMusics\\%s\' -WindowStyle Minimized -RedirectStandardError \'$env:USERPROFILE\\.tictactoe\\ErrorFile\'\"",argv[0],input);
+            sprintf(systemcommand,"start wmplayer \"%sMusics/%s\" 2>%%USERPROFILE%%\\.tictactoe\\ErrorFile",argv[0],input);
             system(systemcommand);
             printf("\nIn case you don't hear anything check .tictactoe\\ErrorFile in your user's home directory\n");
         }
