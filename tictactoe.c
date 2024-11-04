@@ -122,10 +122,10 @@ int main(int argc,char* argv[]){
             system(systemcommand);
             printf("\nWhich music you want? [name]:");
             getlinecustom(input);
-            system("mkdir $HOME/.tictactoe");
+            system("mkdir $HOME/.tictactoe 2>/dev/null");
             sprintf(systemcommand,"mpg123 %sMusics/%s -q 1 > /dev/null 2>$HOME/.tictactoe/.ErrorFile &",argv[0],input);
             system(systemcommand);
-            printf("\nIn case you don't hear anything check ~/.tictactoe/ErrorFile!\n");
+            printf("\nIn case you don't hear anything check ~/.tictactoe/ErrorFile\n");
         }
         else{
             sprintf(systemcommand,"dir \"%sMusics\" /B",argv[0]);
@@ -133,9 +133,10 @@ int main(int argc,char* argv[]){
             system(systemcommand);
             printf("\nWhich music you want? [name]:");
             getlinecustom(input);
+            system("mkdir %%USERPROFILE%%\\.tictactoe 2>nul");
             sprintf(systemcommand,"start wmplayer \"%sMusics/%s\" 2>ErrorFile",argv[0],input);
             system(systemcommand);
-            printf("\nIn case you don't hear anything check ErrorFile!\n");
+            printf("\nIn case you don't hear anything check .tictactoe\\ErrorFile in your user's home directory\n");
         }
     }
     char Whoseturn[200];
