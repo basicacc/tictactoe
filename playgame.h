@@ -41,13 +41,10 @@ void playgame(char Whoseturn[200]){
         getlinecustom(input);
     }
     now=toupper(input[0]);
-    //Error check ends here
-    printf("\n\033[31mIMPORTANT: FOR GOD SAKE IF YOU ACCIDENTLY WRITE WRONG INPUT\nWRITE SOME NUMBER OR SOMETHING TILL IT ENDS\n");
-    printf("\nEXPLANATION:Program wants you to input 2 different inputs,\nwhen you don't write them, program will search for infinity\033[0m\n\n");
     while(!checkifwin(c,now)){
         printf("%s's turn [\033[32mX \033[31mY\033[0m]:",NowPlayer);
         getlinecustom(input);
-        
+        printf("%s\n",input);
         //Error check
         while (true){
             while(errorcheck(input,input2)){
