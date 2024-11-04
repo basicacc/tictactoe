@@ -69,20 +69,13 @@ int string_to_num(char astring[200]){
 }
 
 bool errorcheck(char inputtocheck[200],char input2[200]){
-    if(inputtocheck[0]=='\0') return 1;
-    int i;
-    for (i=0;i<200 && inputtocheck[i]!='\0' && inputtocheck[i]!=' ';i++){
-        if (inputtocheck[i]<'0'|| inputtocheck[i]>'9'){
-            return 1;
-        }
-    }
-    inputtocheck[i]='\0';
-    for (int j=i+1;j<200 && inputtocheck[j]!='\0' && inputtocheck[j]!=' ';j++){
-        if (inputtocheck[j]<'0'|| inputtocheck[j]>'9'){
-            return 1;
-        }
-        input2[j-i-1]=inputtocheck[j];
-    }
+    if(inputtocheck[3]!='\0') return 1;
+    if(inputtocheck[0]<'1' || inputtocheck[0]>'9' || \
+        inputtocheck[1]!=' ' || inputtocheck[2]<'1' ||\
+        inputtocheck[2]>'9') return 1;
+    inputtocheck[1]='\0';
+    input2[0]=inputtocheck[2];
+    input2[1]='\0';
     return 0;
 }
 

@@ -44,11 +44,10 @@ void playgame(char Whoseturn[200]){
     while(!checkifwin(c,now)){
         printf("%s's turn [\033[32mX \033[31mY\033[0m]:",NowPlayer);
         getlinecustom(input);
-        printf("%s\n",input);
         //Error check
         while (true){
             while(errorcheck(input,input2)){
-                printf("%s %s\nBe careful with format! Wrong input!\n%s's turn [\033[32mX \033[31mY\033[0m]:",input,input2,NowPlayer);
+                printf("\nBe careful with format! Wrong input!\n%s's turn [\033[32mX \033[31mY\033[0m]:",NowPlayer);
                 getlinecustom(input);
             }
             xx=string_to_num(input);
