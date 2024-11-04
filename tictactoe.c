@@ -108,6 +108,13 @@ void handle_sigint(int sig) { // Used Chatgpt to learn :(
 #include"playgame.h"
 
 int main(int argc,char* argv[]){
+
+    //remove file name from argument[0]
+    int last;
+    for(int i=0;i<200 && argv[0][i]!='\0';i++){
+        if(argv[0][i]=='\\' || argv[0][i]=='/') last=i;
+    }
+    argv[0][last]='\0';
     char input[200];
     #ifdef _WIN32
         iswindows=1;
@@ -125,25 +132,22 @@ int main(int argc,char* argv[]){
     if(input[0]=='y' || input[0]=='Y'){
         char systemcommand[200];
         if(!iswindows){
-            sprintf(systemcommand,"ls --color \"%sMusics\"",argv[0]);
+            sprintf(systemcommand,"ls --color \"%s/Musics\"",argv[0]);
             printf("\n");
             system(systemcommand);
             printf("\nWhich music you want? [name]:");
             getlinecustom(input);
-            system("mkdir $HOME/.tictactoe 2>/dev/null");
-            sprintf(systemcommand,"mpg123 %sMusics/%s -q 1 > /dev/null 2>$HOME/.tictactoe/.ErrorFile &",argv[0],input);
+            sprintf(systemcommand,"mpg123 %s/Musics/%s -q 1 > /dev/null 2>%s/.ErrorFile &",argv[0],input,argv[0]);
             system(systemcommand);
-            printf("\nIn case you don't hear anything check ~/.tictactoe/ErrorFile\n");
+            printf("\nIn case you don't hear anything check %s/.ErrorFile\n",argv[0]);
         }
         else{
-            sprintf(systemcommand,"dir \"%sMusics\" /B",argv[0]);
+            sprintf(systemcommand,"dir \"%s\\Musics\" /B",argv[0]);
             printf("\n");
             system(systemcommand);
             printf("\nWhich music you want? [name]:");
             getlinecustom(input);
-            sprintf(systemcommand,"mkdir %%USERPROFILE%%\\.tictactoe 2>nul");
-            system(systemcommand);
-            sprintf(systemcommand,"start wmplayer \"%sMusics\\%s\" 2>%%USERPROFILE%%\\.tictactoe\\ErrorFile",argv[0],input);
+            sprintf(systemcommand,"start wmplayer \"%s\\Musics\\%s\" 2>%s\\.ErrorFile",argv[0],input,argv[0]);
             system(systemcommand);
             printf("\nIn case you don't hear anything check .tictactoe\\ErrorFile in your user's home directory\n");
         }
