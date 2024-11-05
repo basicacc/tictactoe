@@ -3,8 +3,8 @@
 #include<stdlib.h>
 #include<ctype.h>
 #include<string.h>
-#include<signal.h>
-#include<unistd.h>
+#include<signal.h> //chatgpt
+#include<unistd.h> //chatgpt
 
 int turnX=0;
 int turnO=0;
@@ -123,7 +123,7 @@ int main(int argc,char* argv[]){
         system("chcp 65001 > nul");
     #endif
 
-    signal(SIGINT, handle_sigint);
+    signal(SIGINT, handle_sigint); //Chatgpt
 
     printf("Want some music? [Y/N]:");
     getlinecustom(input);
@@ -143,13 +143,13 @@ int main(int argc,char* argv[]){
             system(systemcommand);
             printf("\nIn case you don't hear anything check %s/.ErrorFile\n",argv[0]);
         }
-        else{
+        else{ //Only some windows commands like start wmplayer from chatgpt others me
             sprintf(systemcommand,"dir \"%s\\Musics\" /B",argv[0]);
             printf("\n");
             system(systemcommand);
             printf("\nWhich music you want? [name]:");
             getlinecustom(input);
-            sprintf(systemcommand,"start wmplayer /MIN \"%s\\Musics\\%s\" 2>\"%s\\ErrorFile\"",argv[0],input,argv[0]);
+            sprintf(systemcommand,"start wmplayer \"%s\\Musics\\%s\" 2>\"%s\\ErrorFile\"",argv[0],input,argv[0]);
             system(systemcommand);
             printf("\nIn case you don't hear anything check %s\\ErrorFile\n",argv[0]);
         }
@@ -196,7 +196,7 @@ int main(int argc,char* argv[]){
                 system("killall mpg123");
             }
             else{
-                system("taskkill /IM wmplayer.exe /F");
+                system("taskkill /IM wmplayer.exe /F"); //also this windows command from chatgpt
             }
             printf("Goodbye!");
             break;
