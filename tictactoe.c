@@ -23,7 +23,7 @@ struct queuestruct{
 #include"printarray.h"
 
 
-void findnullandadd(struct queuestruct *currentqueue,int row,int x,int y){
+void findnullandadd(struct queuestruct *currentqueue,int row,int y,int x){
     if (currentqueue->x==-100){
         currentqueue->x=x;
         currentqueue->y=y;
@@ -147,9 +147,9 @@ int main(int argc,char* argv[]){
             system(systemcommand);
             printf("\nWhich music you want? [name]:");
             getlinecustom(input);
-            sprintf(systemcommand,"start wmplayer //MIN \"%s\\Musics\\%s\" 2>\"%s\\.ErrorFile\"",argv[0],input,argv[0]);
+            sprintf(systemcommand,"start wmplayer /MIN \"%s\\Musics\\%s\" 2>\"%s\\ErrorFile\" && attrib -h \"%s\\ErrorFile\"",argv[0],input,argv[0]);
             system(systemcommand);
-            printf("\nIn case you don't hear anything check %s\\.ErrorFile in your user's home directory\n",argv[0]);
+            printf("\nIn case you don't hear anything check %s\\ErrorFile\n",argv[0]);
         }
     }
     char Whoseturn[200];

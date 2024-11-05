@@ -52,7 +52,7 @@ void playgame(char Whoseturn[200]){
             }
             xx=string_to_num(input);
             yy=string_to_num(input2);
-            if(xx>0 && xx<=n && yy>0 && yy<=n && c[xx-1][yy-1]==' '){
+            if(xx>0 && xx<=n && yy>0 && yy<=n && c[yy-1][xx-1]==' '){
                 break;
             }
             input[0]='\0'; //creating error so loop can repeat
@@ -60,31 +60,31 @@ void playgame(char Whoseturn[200]){
         //Error check ends here
 
         if(now=='X' && turnX==n){
-            c[Xqueue.x][Xqueue.y]=' ';
-            c[xx-1][yy-1]='X';
-            findnullandadd(&Xqueue,1,xx-1,yy-1);
+            c[Xqueue.y][Xqueue.x]=' ';
+            c[yy-1][xx-1]='X';
+            findnullandadd(&Xqueue,1,yy-1,xx-1);
             pushlist(&Xqueue);
             now='O';
         }
         else if(now=='O' && turnO==n){
             
 
-            c[Oqueue.x][Oqueue.y]=' ';
-            c[xx-1][yy-1]='O';
-            findnullandadd(&Oqueue,1,xx-1,yy-1);
+            c[Oqueue.y][Oqueue.x]=' ';
+            c[yy-1][xx-1]='O';
+            findnullandadd(&Oqueue,1,yy-1,xx-1);
             pushlist(&Oqueue);
             now='X';
         }
         else if (now=='X'){
             turnX++;
-            c[xx-1][yy-1]='X';
-            findnullandadd(&Xqueue,1,xx-1,yy-1);
+            c[yy-1][xx-1]='X';
+            findnullandadd(&Xqueue,1,yy-1,xx-1);
             now='O';
         }
         else{
             turnO++;
-            c[xx-1][yy-1]='O';
-            findnullandadd(&Oqueue,1,xx-1,yy-1);
+            c[yy-1][xx-1]='O';
+            findnullandadd(&Oqueue,1,yy-1,xx-1);
             now='X';
         }
         if(strcmp(NowPlayer,Player1)==0){
