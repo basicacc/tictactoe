@@ -3,13 +3,15 @@
 #include<stdlib.h>
 #include<ctype.h>
 #include<string.h>
-#include <signal.h>
-#include <unistd.h>
+#include<signal.h>
+#include<unistd.h>
 
 int turnX=0;
 int turnO=0;
 int n;
 int iswindows=0;
+
+int gamemode=0; //0=easy 1=hard
 
 char Player1[200],Player2[200];
 int Player1Score=0,Player2Score=0;
@@ -108,7 +110,7 @@ void handle_sigint(int sig) { // Used Chatgpt to learn :(
 #include"playgame.h"
 
 int main(int argc,char* argv[]){
-
+    extern int gamemode;
     //remove file name from argument[0]
     int last;
     for(int i=0;i<200 && argv[0][i]!='\0';i++){
@@ -126,7 +128,7 @@ int main(int argc,char* argv[]){
     printf("Want some music? [Y/N]:");
     getlinecustom(input);
     while (input[1]!='\0' || (input[0]!='y' && input[0]!='Y' && input[0]!='n' && input[0]!='N')){
-        printf("Wrong Input!!! Only Y/N allowed!\nWant some music? [Y/N]:");
+        printf("\nWrong Input!!! Only Y/N allowed!\n\nWant some music? [Y/N]:");
         getlinecustom(input);
     }
     if(input[0]=='y' || input[0]=='Y'){
@@ -152,19 +154,32 @@ int main(int argc,char* argv[]){
             printf("\nIn case you don't hear anything check %s\\ErrorFile\n",argv[0]);
         }
     }
+    //GAME MODE
+
+    printf("\nGame Mode [easy/hard]:");
+    getlinecustom(input);
+    while(strcmp(input,"easy") && strcmp(input,"hard")){
+        printf("\nWrong input!!!\n\nGame Mode [easy/hard]:");
+        getlinecustom(input);
+    }
+    if(strcmp(input,"hard")==0){
+        printf("its hard");
+        gamemode=1;
+    }
+
     char Whoseturn[200];
     printf("\nPlayer 1 [name]:");
     getlinecustom(Player1);
     while(errorforname(Player1)){
 
-        printf("\nWrong input!!! Only a/A-z/Z allowed!\nPlayer 1 [name]:");
+        printf("\nWrong input!!! Only a/A-z/Z allowed!\n\nPlayer 1 [name]:");
         getlinecustom(Player1);
     }
     printf("Player 2 [name]:");
     getlinecustom(Player2);
     while(errorforname(Player2)){
 
-        printf("\nWrong input!!! Only a/A-z/Z allowed!\nPlayer 2 [name]:");
+        printf("\nWrong input!!! Only a/A-z/Z allowed!\n\nPlayer 2 [name]:");
         getlinecustom(Player2);
     }
     strcpy(Whoseturn,Player1);
@@ -173,7 +188,7 @@ int main(int argc,char* argv[]){
         printf("\nDo you want to play again? [Y/N]: ");
         getlinecustom(input);
         while (input[1]!='\0' || (input[0]!='y' && input[0]!='Y' && input[0]!='n' && input[0]!='N')){
-            printf("Wrong Input!!! Only Y/N allowed!\nDo you want to play again? [Y/N]: ");
+            printf("\nWrong Input!!! Only Y/N allowed!\n\nDo you want to play again? [Y/N]: ");
             getlinecustom(input);
         }
         if(input[0]=='n' || input[1]=='N'){
@@ -191,7 +206,7 @@ int main(int argc,char* argv[]){
             Oqueue=emptyforreplay;
             turnO=0;
             turnX=0;
-            printf("Players turn will be changed!\n\n");
+            printf("\nPlayers turn will be changed!\n\n");
             if(strcmp(Whoseturn,Player2)==0){
                 strcpy(Whoseturn,Player1);
             }

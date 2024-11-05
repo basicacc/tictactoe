@@ -1,13 +1,21 @@
 void print_charry(char x[][n], int length){
+    extern int gamemode;
+    extern struct queuestruct Xqueue,Oqueue;
     printf("\n   \u2554");
     for (int j=0;j<n-1;j++){
         printf("\u2550\u2550\u2550\u2566");
     }
     printf("\u2550\u2550\u2550\u2557\033[0m\n");
-    for (int i=length-1;i>0;i--){
+    int i;
+    for (i=length-1;i>0;i--){
         printf(" \033[32m%d\033[0m \u2551\033[0m",i+1);
         for (int j=0;j<length;j++){
-            printf(" %c \u2551\033[0m",x[i][j]);
+            if(!gamemode && ((Xqueue.x==j && Xqueue.y==i) || (Oqueue.x==j && Oqueue.y==i))){
+                printf(" \033[31m%c \033[0m\u2551",x[i][j]);
+            }
+            else{
+                printf(" %c \u2551",x[i][j]);
+            }
         }
         printf("\n   \u2560");
         for(int j=0;j<length-1;j++){
@@ -17,7 +25,12 @@ void print_charry(char x[][n], int length){
     }
     printf(" \033[32m1\033[0m \u2551\033[0m");
     for (int j=0;j<length;j++){
-        printf(" %c \u2551\033[0m",x[0][j]);
+            if(!gamemode && ((Xqueue.x==j && Xqueue.y==i) || (Oqueue.x==j && Oqueue.y==i))){
+                printf(" \033[31m%c \033[0m\u2551",x[0][j]);
+            }
+            else{
+                printf(" %c \u2551",x[0][j]);
+            }
     }
     printf("\n   \u255A");
     for (int j=0;j<n-1;j++){

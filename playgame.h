@@ -11,7 +11,7 @@ void playgame(char Whoseturn[200]){
     //Error check
     while(true){
         if(input[1]!='\0'|| input[0]>'9' || input[0]<='0'){
-            printf("Wrong input!!! Only 1-9 allowed.\nEnter N:");
+            printf("\nWrong input!!! Only 1-9 allowed.\n\nEnter N:");
             getlinecustom(input);
         }
         else{
@@ -27,7 +27,6 @@ void playgame(char Whoseturn[200]){
             c[i][j]=' ';
         }
     }
-    print_charry(c, n);
     extern struct queuestruct Xqueue,Oqueue;
     Xqueue.x=-100;
     Oqueue.x=-100;
@@ -37,17 +36,19 @@ void playgame(char Whoseturn[200]){
 
     //Error check
     while (input[1]!='\0' || (input[0]!='X' && input[0]!='x' && input[0]!='O' && input[0]!='o')){
-        printf("Wrong Input!!!\n\nWhat is %s? [X/O]:",NowPlayer);
+        printf("\nWrong Input!!!\n\nWhat is %s? [X/O]:",NowPlayer);
         getlinecustom(input);
     }
     now=toupper(input[0]);
+    print_charry(c, n);
     while(!checkifwin(c,now)){
-        printf("%s's [%c] turn [\033[31mX \033[32mY\033[0m]:",NowPlayer,now);
+        printf("\n%s's [%c] turn [\033[31mX \033[32mY\033[0m]:",NowPlayer,now);
         getlinecustom(input);
         //Error check
         while (true){
             while(errorcheck(input,input2)){
-                printf("\nBe careful with format! Wrong input!\n%s's turn [\033[31mX \033[32mY\033[0m]:",NowPlayer);
+                print_charry(c, n);
+                printf("\nBe careful with format! Wrong input!\n\n%s's turn [\033[31mX \033[32mY\033[0m]:",NowPlayer);
                 getlinecustom(input);
             }
             xx=string_to_num(input);
