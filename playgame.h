@@ -1,12 +1,14 @@
 void playgame(char Whoseturn[200]){
-    extern int n;
-    extern char Player1[200],Player2[200];
-    extern int Player1Score,Player2Score;
-    char now,input[200],input2[200];
+    char now;
     char NowPlayer[200];
-    strcpy(NowPlayer,Whoseturn);
-    printf("Enter N:");
-    getlinecustom(input);
+    strcpy(NowPlayer,Whoseturn); // we create second char named NowPlayer so we can say who is going to start
+                                 // question is why not just Whoseturn char, because we gonna also use NowPlayer
+                                 // to print out who is going to start, basically it would be bad idea to use it
+                                 // dont forget whoseturn is for who is going to start first, this one for who is
+                                 // going to continue
+    
+    printf("Enter N:"); //length and width of tictactoe
+    getlinecustom(input); 
 
     //Error check
     while(true){
@@ -21,53 +23,48 @@ void playgame(char Whoseturn[200]){
     n=input[0]-'0';
     //Error check ends here
 
-    char c[n][n];
+    char c[n][n]; //this is what we going to store our Xs and Os inside
     for (int i=0;i<n;i++){
         for (int j=0;j<n;j++){
-            c[i][j]=' ';
+            c[i][j]=' '; //creating empty array with ' '
         }
     }
-    extern struct queuestruct Xqueue,Oqueue;
-    Xqueue.x=-100;
-    Oqueue.x=-100;
+    Xqueue.x=-100; //later it will be checked if it is first time Xqueue changning or not
+    Oqueue.x=-100; //same for Oqueue
     int xx,yy;
-    printf("What is %s? [X/O]:",NowPlayer);
+    printf("What is %s? [X/O]:",NowPlayer); //asking what first player gonna be X or O just for visual
     getlinecustom(input);
 
     //Error check
-    while (input[1]!='\0' || (input[0]!='X' && input[0]!='x' && input[0]!='O' && input[0]!='o')){
+    while (input[1]!='\0' || (tolower(input[0])!='x' && tolower(input[0])!='o')){
         printf("\nWrong Input!!!\n\nWhat is %s? [X/O]:",NowPlayer);
         getlinecustom(input);
     }
     now=toupper(input[0]);
-    print_charry(c, n);
-    while(!checkifwin(c,now)){
-        printf("\n%s's [%c] turn [\033[31mX \033[32mY\033[0m]:",NowPlayer,now);
+    //Error check ends here
+
+    print_charry(c, n); //Just to show players how it looks
+    while(!checkifwin(c,now)){ //The moment someone wins it will end
+        printf("\n%s's [%c] turn [\033[31mX \033[32mY\033[0m]:",NowPlayer,now); // we use now variable to let player know if he is X or O
         getlinecustom(input);
+
         //Error check
-        while (true){
-            while(errorcheck(input,input2)){
-                print_charry(c, n);
-                printf("\nBe careful with format! Wrong input!\n\n%s's turn [\033[31mX \033[32mY\033[0m]:",NowPlayer);
-                getlinecustom(input);
-            }
-            xx=string_to_num(input);
-            yy=string_to_num(input2);
-            if(xx>0 && xx<=n && yy>0 && yy<=n && c[yy-1][xx-1]==' '){
-                break;
-            }
-            input[0]='\0'; //creating error so loop can repeat
+        while((xx=(input[0]-'0')) && (yy=(input[2]-'0'))){
+            if(input[1]==' ' && input[3]=='\0' && xx>0 && xx<=n && yy>0 && yy<=n && c[yy-1][xx-1]==' ') break;
+            print_charry(c, n); //if player makes mistake repeatively, they will not forget how game looks, it will not disappear from screen
+            printf("\nBe careful with format! Wrong input!\n\n%s's turn [\033[31mX \033[32mY\033[0m]:",NowPlayer);
+            getlinecustom(input);
         }
         //Error check ends here
 
-        if(now=='X' && turnX==n){
-            c[Xqueue.y][Xqueue.x]=' ';
-            c[yy-1][xx-1]='X';
-            findnullandadd(&Xqueue,1,yy-1,xx-1);
-            pushlist(&Xqueue);
-            now='O';
+        if(now=='X' && turnX==n){ //if we reached limit, turnX is basically equal to length/width of array then we have to remove first X
+            c[Xqueue.y][Xqueue.x]=' '; // Xqueue.y/x always gonna be first X to be deletedfrom array
+            c[yy-1][xx-1]='X'; //we put last X in array that we inputed before
+            findnullandadd(&Xqueue,1,yy-1,xx-1); //adding last X to queue
+            pushlist(&Xqueue); //we remove the first Xqueue we deleted from array and push queue forward
+            now='O'; //change player
         }
-        else if(now=='O' && turnO==n){
+        else if(now=='O' && turnO==n){ //same as X
             
 
             c[Oqueue.y][Oqueue.x]=' ';
@@ -76,19 +73,19 @@ void playgame(char Whoseturn[200]){
             pushlist(&Oqueue);
             now='X';
         }
-        else if (now=='X'){
-            turnX++;
+        else if (now=='X'){ //if turnX is not equal to n then we dont have to push list just add
+            turnX++; 
             c[yy-1][xx-1]='X';
             findnullandadd(&Xqueue,1,yy-1,xx-1);
             now='O';
         }
-        else{
+        else{ //same as X
             turnO++;
             c[yy-1][xx-1]='O';
             findnullandadd(&Oqueue,1,yy-1,xx-1);
             now='X';
         }
-        if(strcmp(NowPlayer,Player1)==0){
+        if(strcmp(NowPlayer,Player1)==0){ //changing player
             strcpy(NowPlayer,Player2);
         }
         else{
@@ -96,9 +93,9 @@ void playgame(char Whoseturn[200]){
         }
         print_charry(c,n);
     }
-    if(strcmp(NowPlayer,Player2)==0){
-        strcpy(NowPlayer,Player1);
-        Player1Score++;
+    if(strcmp(NowPlayer,Player2)==0){ //we always player at the end, so even someone wins, nowplayer will be equal to other play, 
+        strcpy(NowPlayer,Player1);    //nowplayer = player2 when player 1 wins and same for other player
+        Player1Score++; //increasing player score
     }
     else{
         strcpy(NowPlayer,Player2);

@@ -10,10 +10,12 @@ int turnX=0;
 int turnO=0;
 int n;
 int iswindows=0;
-
+int musicstarted=0;
 int gamemode=0; //0=easy 1=hard
 
+char input[200],input2[200];
 char Player1[200],Player2[200];
+
 int Player1Score=0,Player2Score=0;
 struct queuestruct{
     int x;
@@ -21,8 +23,6 @@ struct queuestruct{
     struct queuestruct *next;
 } Xqueue,Oqueue,emptyforreplay;
 
-#include"wincheck.h"
-#include"printarray.h"
 
 
 void findnullandadd(struct queuestruct *currentqueue,int row,int y,int x){
@@ -64,16 +64,6 @@ void getlinecustom(char result[200]){
     result[i]='\0';
 }
 
-
-int string_to_num(char astring[200]){
-    int k=0;
-    for(int i=0;i<200 && astring[i]!='\0';i++){
-        k*=10;
-        k+=astring[i]-'0';
-    }
-    return k;
-}
-
 bool errorcheck(char inputtocheck[200],char input2[200]){
     if(inputtocheck[3]!='\0') return 1;
     if(inputtocheck[0]<'1' || inputtocheck[0]>'9' || \
@@ -97,80 +87,53 @@ bool errorforname(char inputtocheck[200]){
     return false;
 }
 
-void handle_sigint(int sig) { // Used Chatgpt to learn :(
+void handle_sigint(int sig) {
     if(iswindows){
         system("taskkill /IM wmplayer.exe /F > nul 2>&1");
     }
     else{
-        system("killall mpg123 1>/dev/null 2>&1");
+        system("killall mpg123 >/dev/null");
     }
     exit(0); 
 }
 
+#include"wincheck.h"
+#include"printarray.h"
+#include"wantmusic.h"
 #include"playgame.h"
 
 int main(int argc,char* argv[]){
-    extern int gamemode;
     //remove file name from argument[0]
-    int last;
+    int last; //gonna store last / or '\\' location digit
     for(int i=0;i<200 && argv[0][i]!='\0';i++){
-        if(argv[0][i]=='\\' || argv[0][i]=='/') last=i;
+        if(argv[0][i]=='\\' || argv[0][i]=='/') last=i; //find last
     }
-    argv[0][last]='\0';
-    char input[200];
-    #ifdef _WIN32
-        iswindows=1;
-        system("chcp 65001 > nul");
+    argv[0][last]='\0'; //if we make the last one NULL when we specify %s it will read till it see NULL
+    
+    #ifdef _WIN32 //if program run in windows
+        iswindows=1; //making global variable "iswindows" true
+        system("chcp 65001 > nul"); //necessary command to run in cmd to be able to see unicode characters
     #endif
 
-    signal(SIGINT, handle_sigint); //Chatgpt
-
-    printf("Want some music? [Y/N]:");
-    getlinecustom(input);
-    while (input[1]!='\0' || (input[0]!='y' && input[0]!='Y' && input[0]!='n' && input[0]!='N')){
-        printf("\nWrong Input!!! Only Y/N allowed!\n\nWant some music? [Y/N]:");
-        getlinecustom(input);
-    }
-    if(input[0]=='y' || input[0]=='Y'){
-        char systemcommand[200];
-        if(!iswindows){
-            sprintf(systemcommand,"ls --color \"%s/Musics\"",argv[0]);
-            printf("\n");
-            system(systemcommand);
-            printf("\nWhich music you want? [name]:");
-            getlinecustom(input);
-            sprintf(systemcommand,"mpg123 %s/Musics/%s -q 1 > /dev/null 2>%s/.ErrorFile &",argv[0],input,argv[0]);
-            system(systemcommand);
-            printf("\nIn case you don't hear anything check %s/.ErrorFile\n",argv[0]);
-        }
-        else{ //Only some windows commands like start wmplayer from chatgpt others me
-            sprintf(systemcommand,"dir \"%s\\Musics\" /B",argv[0]);
-            printf("\n");
-            system(systemcommand);
-            printf("\nWhich music you want? [name]:");
-            getlinecustom(input);
-            sprintf(systemcommand,"start wmplayer \"%s\\Musics\\%s\" 2>\"%s\\ErrorFile\"",argv[0],input,argv[0]);
-            system(systemcommand);
-            printf("\nIn case you don't hear anything check %s\\ErrorFile\n",argv[0]);
-        }
-    }
+    signal(SIGINT, handle_sigint); //(Used chatgpt) Basically SIGINT is equal to Ctrl+C with this command,
+                                   // if Ctrl+C is pressed it will run the void handle_sigint
+    wantmusic(argv); //Ask if it wants music
     //GAME MODE
-
     printf("\nGame Mode [easy/hard]:");
     getlinecustom(input);
-    while(strcmp(input,"easy") && strcmp(input,"hard")){
-        printf("\nWrong input!!!\n\nGame Mode [easy/hard]:");
-        getlinecustom(input);
+    while(strcmp(input,"easy") && strcmp(input,"hard")){ //strcmp will compare strings of input, it must be either easy or hard to stop loop
+        printf("\nWrong input!!!\n\nGame Mode [easy/hard]:"); //basically strcmp outputs different number of chars in 2 strings
+        getlinecustom(input); //my custom getline function to make things easier and stable
     }
     if(strcmp(input,"hard")==0){
-        printf("its hard");
-        gamemode=1;
+        gamemode=1; //going to change global gamemode variable to make game hard
     }
 
+    //Whose turn is it
     char Whoseturn[200];
     printf("\nPlayer 1 [name]:");
     getlinecustom(Player1);
-    while(errorforname(Player1)){
+    while(errorforname(Player1)){ //errorforname function needs to be false to stop loop
 
         printf("\nWrong input!!! Only a/A-z/Z allowed!\n\nPlayer 1 [name]:");
         getlinecustom(Player1);
@@ -182,31 +145,35 @@ int main(int argc,char* argv[]){
         printf("\nWrong input!!! Only a/A-z/Z allowed!\n\nPlayer 2 [name]:");
         getlinecustom(Player2);
     }
-    strcpy(Whoseturn,Player1);
+    strcpy(Whoseturn,Player1); //Automatically makes Player1 first one to start instead of asking who is going to start
+
+    //Game starts
     while(true){
-        playgame(Whoseturn);
+        playgame(Whoseturn); //starts game with who is going to start
         printf("\nDo you want to play again? [Y/N]: ");
         getlinecustom(input);
-        while (input[1]!='\0' || (input[0]!='y' && input[0]!='Y' && input[0]!='n' && input[0]!='N')){
+        //Error check
+        while (input[1]!='\0' || (tolower(input[0])!='y'&& tolower(input[0])!='n')){
             printf("\nWrong Input!!! Only Y/N allowed!\n\nDo you want to play again? [Y/N]: ");
             getlinecustom(input);
         }
-        if(input[0]=='n' || input[1]=='N'){
-            if(!iswindows){
+        //If players wants to exit, game gonna kill every task it started
+        if((tolower(input[0])=='n')){ //it asks if we started music or not, then kills process
+            if(!iswindows && musicstarted){
                 system("killall mpg123");
             }
-            else{
-                system("taskkill /IM wmplayer.exe /F"); //also this windows command from chatgpt
+            else if (musicstarted){
+                system("taskkill /IM wmplayer.exe /F"); //(used chatgpt) taskkill will stop process named wmplayer.exe
             }
             printf("Goodbye!");
             break;
         }
-        else{
+        else{ //if player decides to play again we reset everything
             Xqueue=emptyforreplay;
             Oqueue=emptyforreplay;
             turnO=0;
             turnX=0;
-            printf("\nPlayers turn will be changed!\n\n");
+            printf("\nPlayers turn will be changed!\n\n"); //also changing who is going to start
             if(strcmp(Whoseturn,Player2)==0){
                 strcpy(Whoseturn,Player1);
             }
