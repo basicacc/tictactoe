@@ -122,7 +122,7 @@ int main(int argc,char* argv[]){
     printf("\nGame Mode [easy/hard]:");
     getlinecustom(input);
     while(strcmp(input,"easy") && strcmp(input,"hard")){ //strcmp will compare strings of input, it must be either easy or hard to stop loop
-        printf("\nWrong input!!!\n\nGame Mode [easy/hard]:"); //basically strcmp outputs different number of chars in 2 strings
+        printf("\n\033[31mWrong input!!!\033[0m\n\nGame Mode [easy/hard]:"); //basically strcmp outputs different number of chars in 2 strings
         getlinecustom(input); //my custom getline function to make things easier and stable
     }
     if(strcmp(input,"hard")==0){
@@ -135,14 +135,14 @@ int main(int argc,char* argv[]){
     getlinecustom(Player1);
     while(errorforname(Player1)){ //errorforname function needs to be false to stop loop
 
-        printf("\nWrong input!!! Only a/A-z/Z allowed!\n\nPlayer 1 [name]:");
+        printf("\n\033[31mWrong input!!! Only a/A-z/Z allowed!\033[0m\n\nPlayer 1 [name]:");
         getlinecustom(Player1);
     }
     printf("Player 2 [name]:");
     getlinecustom(Player2);
-    while(errorforname(Player2)){
+    while(errorforname(Player2) || !strcmp(Player1,Player2)){
 
-        printf("\nWrong input!!! Only a/A-z/Z allowed!\n\nPlayer 2 [name]:");
+        printf("\n\033[31mWrong input!!! Only a/A-z/Z allowed!\033[0m\n\nPlayer 2 [name]:");
         getlinecustom(Player2);
     }
     strcpy(Whoseturn,Player1); //Automatically makes Player1 first one to start instead of asking who is going to start
@@ -154,7 +154,7 @@ int main(int argc,char* argv[]){
         getlinecustom(input);
         //Error check
         while (input[1]!='\0' || (tolower(input[0])!='y'&& tolower(input[0])!='n')){
-            printf("\nWrong Input!!! Only Y/N allowed!\n\nDo you want to play again? [Y/N]: ");
+            printf("\n\033[31mWrong Input!!! Only Y/N allowed!\033[0m\n\nDo you want to play again? [Y/N]: ");
             getlinecustom(input);
         }
         //If players wants to exit, game gonna kill every task it started
@@ -165,7 +165,7 @@ int main(int argc,char* argv[]){
             else if (musicstarted){
                 system("taskkill /IM wmplayer.exe /F"); //(used chatgpt) taskkill will stop process named wmplayer.exe
             }
-            printf("Goodbye!");
+            printf("\nGoodbye!");
             break;
         }
         else{ //if player decides to play again we reset everything

@@ -37,7 +37,7 @@ void print_charry(char x[][n], int length){ //disgusting looking print array (mi
     printf("\u2550\u2550\u2550\u255D\033\033[0m");
     printf("\n   ");
     for (int j=0;j<n-1;j++){
-        printf("  \033[31m%d\033[0m ",j+1);
+        printf("  \033[34m%d\033[0m ",j+1);
     }
-    printf("  \033[31m%d\033[0m\n\n",n);
+    printf("  \033[34m%d\033[0m\n\n",n);
 }

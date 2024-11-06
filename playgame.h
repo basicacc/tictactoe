@@ -13,7 +13,7 @@ void playgame(char Whoseturn[200]){
     //Error check
     while(true){
         if(input[1]!='\0'|| input[0]>'9' || input[0]<='0'){
-            printf("\nWrong input!!! Only 1-9 allowed.\n\nEnter N:");
+            printf("\n\033[31mWrong input!!! Only 1-9 allowed.\033[0m\n\nEnter N:");
             getlinecustom(input);
         }
         else{
@@ -37,7 +37,7 @@ void playgame(char Whoseturn[200]){
 
     //Error check
     while (input[1]!='\0' || (tolower(input[0])!='x' && tolower(input[0])!='o')){
-        printf("\nWrong Input!!!\n\nWhat is %s? [X/O]:",NowPlayer);
+        printf("\n\033[31mWrong Input!!!\033[0m\n\nWhat is %s? [X/O]:",NowPlayer);
         getlinecustom(input);
     }
     now=toupper(input[0]);
@@ -45,14 +45,14 @@ void playgame(char Whoseturn[200]){
 
     print_charry(c, n); //Just to show players how it looks
     while(!checkifwin(c,now)){ //The moment someone wins it will end
-        printf("\n%s's [%c] turn [\033[31mX \033[32mY\033[0m]:",NowPlayer,now); // we use now variable to let player know if he is X or O
+        printf("\n%s's [%c] turn [\033[34mX \033[32mY\033[0m]:",NowPlayer,now); // we use now variable to let player know if he is X or O
         getlinecustom(input);
 
         //Error check
         while((xx=(input[0]-'0')) && (yy=(input[2]-'0'))){
             if(input[1]==' ' && input[3]=='\0' && xx>0 && xx<=n && yy>0 && yy<=n && c[yy-1][xx-1]==' ') break;
             print_charry(c, n); //if player makes mistake repeatively, they will not forget how game looks, it will not disappear from screen
-            printf("\nBe careful with format! Wrong input!\n\n%s's turn [\033[31mX \033[32mY\033[0m]:",NowPlayer);
+            printf("\n\033[31mBe careful with format! Wrong input!\033[0m\n\n%s's turn [\033[34mX \033[32mY\033[0m]:",NowPlayer);
             getlinecustom(input);
         }
         //Error check ends here

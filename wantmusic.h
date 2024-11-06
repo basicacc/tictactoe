@@ -2,7 +2,7 @@ void wantmusic(char **argv){
     printf("Want some music? [Y/N]:");
     getlinecustom(input);
     while (input[1]!='\0' || (tolower(input[0])!='y' && tolower(input[0])!='n')){
-        printf("\nWrong Input!!! Only Y/N allowed!\n\nWant some music? [Y/N]:");
+        printf("\n\033[31mWrong Input!!! Only Y/N allowed!\033[0m\n\nWant some music? [Y/N]:");
         getlinecustom(input);
     }
     if(tolower(input[0]=='y')){
