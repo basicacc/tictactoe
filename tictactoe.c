@@ -25,37 +25,36 @@ struct queuestruct{
 
 
 
-void findnullandadd(struct queuestruct *currentqueue,int row,int y,int x){
-    if (currentqueue->x==-100){
+void findnullandadd(struct queuestruct *currentqueue,int row,int y,int x){ 
+    if (currentqueue->x==-100){ //default value for x if it is first time changing
         currentqueue->x=x;
         currentqueue->y=y;
         return;
     }
-    while (currentqueue->next != NULL && row!=n) {
+    while (currentqueue->next != NULL && row!=n) { //moving on row
         currentqueue = currentqueue->next;
         row++;
     }
-    currentqueue->next=(struct queuestruct *)malloc(sizeof(struct queuestruct));
+    currentqueue->next=(struct queuestruct *)malloc(sizeof(struct queuestruct)); //allocating space for a pointer
     currentqueue->next->x = x;
     currentqueue->next->y = y;
-    currentqueue->next->next = NULL;
+    currentqueue->next->next = NULL; //setting next pointer as NULL just in case
 }
 
 void pushlist(struct queuestruct *currentqueue){
     if (currentqueue == NULL || currentqueue->next == NULL){
         return;
     }
-    struct queuestruct *current=currentqueue;
-    while(current->next !=NULL){
-        current->x=current->next->x;
-        current->y=current->next->y;
-        current=current->next;
+    while(currentqueue->next !=NULL){
+        currentqueue->x=currentqueue->next->x; //assign next struct's x to current one (pushing behind to front)
+        currentqueue->y=currentqueue->next->y;
+        currentqueue=currentqueue->next;
     }
     return;
 }
 
 
-void getlinecustom(char result[200]){
+void getlinecustom(char result[200]){ //custom getline to make things easier
     char inputnow;
     int i;
     for(i=0;(inputnow=getchar())!='\n' && i<200;i++){
@@ -64,20 +63,9 @@ void getlinecustom(char result[200]){
     result[i]='\0';
 }
 
-bool errorcheck(char inputtocheck[200],char input2[200]){
-    if(inputtocheck[3]!='\0') return 1;
-    if(inputtocheck[0]<'1' || inputtocheck[0]>'9' || \
-        inputtocheck[1]!=' ' || inputtocheck[2]<'1' ||\
-        inputtocheck[2]>'9') return 1;
-    inputtocheck[1]='\0';
-    input2[0]=inputtocheck[2];
-    input2[1]='\0';
-    return 0;
-}
-
 bool errorforname(char inputtocheck[200]){
-    for(int i=0;i<200 && inputtocheck[i]!='\0';i++){
-        if (isalpha(inputtocheck[i])==0){
+    for(int i=0;i<200 && inputtocheck[i]!='\0';i++){ //Move till it see NULL
+        if (isalpha(inputtocheck[i])==0){ //must be alpha else return true (meaning there is error)
             return true;
         }
     }
@@ -87,7 +75,7 @@ bool errorforname(char inputtocheck[200]){
     return false;
 }
 
-void handle_sigint(int sig) {
+void handle_sigint() { //thats the function going to run when Ctrl + C is pressed
     if(iswindows){
         system("taskkill /IM wmplayer.exe /F > nul 2>&1");
     }
