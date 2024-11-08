@@ -14,7 +14,7 @@ void wantmusic(char **argv){
             system(systemcommand);
             printf("\nWhich music you want? [name]:");
             getlinecustom(input);
-            sprintf(systemcommand,"while [ ! -f %s/.stop_music ]; do mpg123 %s/Musics/%s -q 1 > /dev/null 2>%s/.ErrorFile; done &",*argv,*argv,input,*argv);
+            sprintf(systemcommand,"mpg123 --loop -1 %s/Musics/%s -q 1 > /dev/null 2>%s/.ErrorFile &",*argv,input,*argv);
             system(systemcommand);
             printf("\nIn case you don't hear anything check %s/.ErrorFile\n",*argv);
         }

@@ -13,7 +13,6 @@ int iswindows=0;
 int musicstarted=0;
 int gamemode=0; //0=easy 1=hard
 
-char extraargv[1][200];
 char input[200],input2[200];
 char Player1[200],Player2[200];
 
@@ -81,13 +80,10 @@ void handle_sigint() { //thats the function going to run when Ctrl + C is presse
         system("taskkill /IM wmplayer.exe /F > nul 2>&1");
     }
     else{
-        char systemcomm[200];
-        sprintf(systemcomm,"touch %s/.stop_music && killall mpg123",extraargv[0],extraargv[0]);
-        system(systemcomm);
-        sleep(1);
-        sprintf(systemcomm,"rm %s/.stop_music",extraargv[0]);
-        system(systemcomm);
+        system("killall mpg123");
+
     }
+    printf("\nGoodbye!");
     exit(0); 
 }
 
@@ -103,7 +99,6 @@ int main(int argc,char* argv[]){
         if(argv[0][i]=='\\' || argv[0][i]=='/') last=i; //find last
     }
     argv[0][last]='\0'; //if we make the last one NULL when we specify %s it will read till it see NULL
-    strcpy(extraargv[0],argv[0]);
     #ifdef _WIN32 //if program run in windows
         iswindows=1; //making global variable "iswindows" true
         system("chcp 65001 > nul"); //necessary command to run in cmd to be able to see unicode characters
@@ -155,11 +150,7 @@ int main(int argc,char* argv[]){
         if((tolower(input[0])=='n')){ //it asks if we started music or not, then kills process
             if(!iswindows && musicstarted){
                 char systemcomm[200];
-                sprintf(systemcomm,"touch %s/.stop_music && killall mpg123",argv[0]);
-                system(systemcomm);
-                sleep(1);
-                sprintf(systemcomm,"rm %s/.stop_music",argv[0]);
-                system(systemcomm);
+                system("killall mpg123");
             }
             else if (musicstarted){
                 system("taskkill /IM wmplayer.exe /F"); //(used chatgpt) taskkill will stop process named wmplayer.exe
