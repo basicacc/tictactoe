@@ -5,7 +5,7 @@ void wantmusic(char **argv){
         printf("\n\033[31mWrong Input!!! Only Y/N allowed!\033[0m\n\nWant some music? [Y/N]:");
         getlinecustom(input);
     }
-    if(tolower(input[0]=='y')){
+    if(tolower(input[0])=='y'){
         char systemcommand[200];
         musicstarted=1;
         if(!iswindows){
