@@ -56,12 +56,25 @@ void pushlist(struct queuestruct *currentqueue){
 
 void getlinecustom(char result[200]){ //custom getline to make things easier
     char inputnow;
-    int i;
-    for(i=0;(inputnow=getchar())!='\n' && i<200;i++){
+    int i=0;
+    for(i=0;(inputnow=getchar())!='\n' && inputnow!=EOF && i<200;i++){
         result[i]=inputnow;
     }
     result[i]='\0';
+    if(inputnow==EOF){
+        if(iswindows){
+            system("taskkill /IM wmplayer.exe /F > nul 2>&1");
+        }
+        else{
+            system("killall mpg123");
+
+        }
+        printf("\nEOF detected!");
+        exit(0);
+    }
+
 }
+
 
 bool errorforname(char inputtocheck[200]){
     for(int i=0;i<200 && inputtocheck[i]!='\0';i++){ //Move till it see NULL
@@ -86,6 +99,7 @@ void handle_sigint() { //thats the function going to run when Ctrl + C is presse
     printf("\nGoodbye!");
     exit(0); 
 }
+
 
 #include"wincheck.h"
 #include"printarray.h"
