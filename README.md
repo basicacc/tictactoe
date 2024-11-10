@@ -30,3 +30,14 @@ sudo yum install mpg123
 ```bash
 sudo pacman -S mpg123
 ```
+
+### Issues
+You might experience issue with mpg123 non-stop playing in loop even after exiting program, to kill process run:
+```bash
+killall mpg123 #if you started program with sudo priviliges, you might need sudo permission for this command too.
+```
+or
+```bash
+ps aux | grep 'mpg123'
+kill -9 <PID>
+```
