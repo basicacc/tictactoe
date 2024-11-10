@@ -1,6 +1,6 @@
 # Error File
 In case you don't hear anything after specifying music name, you can check .ErrorFile in the same directory as executable file to find out problem.
-
+<br><br>
 
 # Music Player
 To be able to play music while playing game, you need `mpg123` installed in your system, but if you don't want it, it is not necessary, you can still play the game.
@@ -30,8 +30,10 @@ sudo yum install mpg123
 ```bash
 sudo pacman -S mpg123
 ```
-
-### Issues
+<br><br>
+# Issues
+There might some issues happen, (I don't think they will happen). Just in case these are fixes:
+## mpg123
 You might experience issue with mpg123 non-stop playing in loop even after exiting program, to kill process run:
 ```bash
 killall mpg123 #if you started program with sudo priviliges, you might need sudo permission for this command too.
