@@ -163,7 +163,7 @@ int main(int argc,char* argv[]){
         //If players wants to exit, game gonna kill every task it started
         if((tolower(input[0])=='n')){ //it asks if we started music or not, then kills process
             if(!iswindows && musicstarted){
-                char systemcomm[200];
+                char systemcomm[400];
                 system("killall mpg123");
             }
             else if (musicstarted){
