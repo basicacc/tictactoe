@@ -32,6 +32,9 @@ void playgame(char Whoseturn[200]){
             c[i][j]=' '; //creating empty array with ' '
         }
     }
+
+    get_win_condition(n);
+
     Xqueue.x=-100; //later it will be checked if it is first time Xqueue changning or not
     Oqueue.x=-100; //same for Oqueue
     int xx,yy;
@@ -47,7 +50,7 @@ void playgame(char Whoseturn[200]){
     //Error check ends here
 
     print_charry(c, n); //Just to show players how it looks
-    while(!checkifwin(c,now)){ //The moment someone wins it will end
+    while(!checkifwin(c,now,win_condition)){ //The moment someone wins it will end
         printf("\n%s's [%c] turn [\033[34mX \033[32mY\033[0m]:",NowPlayer,now); // we use now variable to let player know if he is X or O
         getlinecustom(input);
 

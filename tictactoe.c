@@ -3,12 +3,13 @@
 #include<stdlib.h>
 #include<ctype.h>
 #include<string.h>
-#include<signal.h> //chatgpt
-#include<unistd.h> //chatgpt
+#include<signal.h> 
+#include<unistd.h> 
 #include<time.h>
 
 FILE *fp;
 
+int win_condition;
 int turnX=0;
 int turnO=0;
 int n;
@@ -104,11 +105,12 @@ void handle_sigint() { //thats the function going to run when Ctrl + C is presse
     exit(0); 
 }
 
-
+#include"winconditions.h"
 #include"wincheck.h"
 #include"printarray.h"
 #include"wantmusic.h"
 #include"playgame.h"
+
 
 int main(int argc,char* argv[]){
 
@@ -130,7 +132,7 @@ int main(int argc,char* argv[]){
     }
     argv[0][last]='\0'; //if we make the last one NULL when we specify %s it will read till it see NULL
 
-    sprintf(input,"%s/log_file.log"); //location of log file
+    sprintf(input,"%s/log_file.log", argv[0]); //location of log file
     fp = fopen(input,"a"); //open log file
     
     #ifdef _WIN32 //if program run in windows
@@ -138,7 +140,7 @@ int main(int argc,char* argv[]){
         system("chcp 65001 > nul"); //necessary command to run in cmd to be able to see unicode characters
     #endif
 
-    signal(SIGINT, handle_sigint); //(Used chatgpt) Basically SIGINT is equal to Ctrl+C with this command,
+    signal(SIGINT, handle_sigint); // Basically SIGINT is equal to Ctrl+C with this command,
                                    // if Ctrl+C is pressed it will run the void handle_sigint
     wantmusic(argv); //Ask if it wants music
     //GAME MODE
@@ -170,6 +172,7 @@ int main(int argc,char* argv[]){
     }
     strcpy(Whoseturn,Player1); //Automatically makes Player1 first one to start instead of asking who is going to start
 
+
     //Game starts
 
     fprintf(fp,"Current Date and Time: %d-%02d-%02d %02d:%02d %s\n",
@@ -197,7 +200,7 @@ int main(int argc,char* argv[]){
                 system("killall mpg123");
             }
             else if (musicstarted){
-                system("taskkill /IM wmplayer.exe /F"); //(used chatgpt) taskkill will stop process named wmplayer.exe
+                system("taskkill /IM wmplayer.exe /F"); //taskkill will stop process named wmplayer.exe
             }
             printf("\nGoodbye!");
             break;

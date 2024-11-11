@@ -18,7 +18,7 @@ void wantmusic(char **argv){
             system(systemcommand);
             printf("\nIn case you don't hear anything check %s/.ErrorFile\n",*argv);
         }
-        else{ //(Only some windows commands like start wmplayer from chatgpt) everything else mine
+        else{ 
             sprintf(systemcommand,"dir \"%s\\Musics\" /B",*argv); //using sprintf to format a string easily and use it as system command
             printf("\n");
             system(systemcommand);

@@ -1,64 +1,26 @@
-int checkifwin(char x[][n],char c){
-    bool horizontaltest=true, verticaltest=true, diagonaltest=true;
-    int loc=-1;
-    if (c=='O') c='X';
-    else c='O';
-    for (int i=0;i<n;i++){
-        if (x[0][i]==c){
-            loc=i;
-            break;
-        }
-    }
-    if (loc==0){
-        for (int i=0;i<n;i++){
-            if(x[0][i]!=c){
-                horizontaltest=false;
-            }
-            if(x[i][0]!=c){
-                verticaltest=false;
-            }
-            if(x[i][i]!=c){
-                diagonaltest=false;
-            }
-        }
-        return horizontaltest | verticaltest | diagonaltest;
-    }
-    else if (loc==n-1){
-        for (int i=n-1;i>=0;i--){
-            if(x[i][n-1]!=c){
-                horizontaltest=false;
-            }
-            if(x[0][i]!=c){
-                verticaltest=false;
-            }
-            if(x[i][n-i-1]!=c){
-                diagonaltest=false;
-            }
-        }
-        return horizontaltest | verticaltest | diagonaltest;
+int checkifwin(char board[n][n], char player, int winCondition) {
+    // Check rows and columns
+    if(player=='X') player='O';
+    else player='X';
 
-    }
-    else if(loc!=-1){
-        for (int i=0;i<n;i++){
-            if(x[i][loc]!=c){
-                verticaltest=false;
-                break;
-            }
-        }
-        return verticaltest;
-    }
-    else{
-        for (int i=1;i<n;i++){
-            if(x[i][0]==c){
-                for(int j=1;j<n;j++){
-                    if(x[i][j]!=c){
-                        verticaltest=false;
-                        break;
-                    }
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (board[i][j] == player) {
+                int upline=1,downline=1,straightline=1,backline=1,righthorizontal=1,lefthorizontal=1;
+
+                for(int k=0;k<winCondition;k++){
+                    if(board[i+k][j]!=player) upline=0;
+                    if(board[i+k][j]!=player) downline=0;
+                    if(board[i][j+k]!=player) straightline=0;
+                    if(board[i][j-k]!=player) backline=0;
+                    if(board[i+k][j+k]!=player) righthorizontal=0;
+                    if(board[i-k][j-k]!=player) lefthorizontal=0;
                 }
-                return verticaltest;
+                if(upline | downline | straightline | backline | righthorizontal | lefthorizontal) return 1;
+                
             }
         }
     }
-    return 0;
+
+    return 0;  // No win found
 }
