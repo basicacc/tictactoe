@@ -5,6 +5,9 @@
 #include<string.h>
 #include<signal.h> //chatgpt
 #include<unistd.h> //chatgpt
+#include<time.h>
+
+FILE *fp;
 
 int turnX=0;
 int turnO=0;
@@ -108,12 +111,28 @@ void handle_sigint() { //thats the function going to run when Ctrl + C is presse
 #include"playgame.h"
 
 int main(int argc,char* argv[]){
+
+    time_t t;
+    struct tm *current_time;
+
+    time(&t);
+    current_time = localtime(&t);
+
+    int hour = current_time->tm_hour;
+    char *am_pm = hour >= 12 ? "PM" : "AM"; //set if it is AM or PM according to value of hour
+    hour = hour % 12;
+    if (hour == 0) hour = 12;
+
     //remove file name from argument[0]
     int last; //gonna store last / or '\\' location digit
     for(int i=0;i<200 && argv[0][i]!='\0';i++){
         if(argv[0][i]=='\\' || argv[0][i]=='/') last=i; //find last
     }
     argv[0][last]='\0'; //if we make the last one NULL when we specify %s it will read till it see NULL
+
+    sprintf(input,"%s/log_file.log"); //location of log file
+    fp = fopen(input,"a"); //open log file
+    
     #ifdef _WIN32 //if program run in windows
         iswindows=1; //making global variable "iswindows" true
         system("chcp 65001 > nul"); //necessary command to run in cmd to be able to see unicode characters
@@ -152,8 +171,18 @@ int main(int argc,char* argv[]){
     strcpy(Whoseturn,Player1); //Automatically makes Player1 first one to start instead of asking who is going to start
 
     //Game starts
+
+    fprintf(fp,"Current Date and Time: %d-%02d-%02d %02d:%02d %s\n",
+           current_time->tm_year + 1900,
+           current_time->tm_mon + 1,
+           current_time->tm_mday,
+           hour,                        //print out time
+           current_time->tm_min,
+           am_pm);
+
     while(true){
         playgame(Whoseturn); //starts game with who is going to start
+        
         printf("\nDo you want to play again? [Y/N]: ");
         getlinecustom(input);
         //Error check

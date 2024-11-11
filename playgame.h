@@ -23,6 +23,9 @@ void playgame(char Whoseturn[200]){
     n=input[0]-'0';
     //Error check ends here
 
+    fprintf(fp,"Size of table: %d\n",n); //log file
+
+
     char c[n][n]; //this is what we going to store our Xs and Os inside
     for (int i=0;i<n;i++){
         for (int j=0;j<n;j++){
@@ -56,6 +59,7 @@ void playgame(char Whoseturn[200]){
             getlinecustom(input);
         }
         //Error check ends here
+        fprintf(fp,"%s placed %c to: %d %d\n",NowPlayer,now,xx,yy);
 
         if(now=='X' && turnX==n){ //if we reached limit, turnX is basically equal to length/width of array then we have to remove first X
             c[Xqueue.y][Xqueue.x]=' '; // Xqueue.y/x always gonna be first X to be deletedfrom array
@@ -102,4 +106,6 @@ void playgame(char Whoseturn[200]){
         Player2Score++;
     }
     printf("%s's Score:%d\n%s's Score:%d\n\n%s is the Winner!\n",Player1,Player1Score,Player2,Player2Score,NowPlayer);
+
+    fprintf(fp,"%s's Score:%d\n%s's Score:%d\n\n%s is the Winner!\n",Player1,Player1Score,Player2,Player2Score,NowPlayer);
 }
