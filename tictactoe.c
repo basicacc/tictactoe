@@ -89,6 +89,7 @@ bool errorforname(char inputtocheck[200]){
 }
 
 void handle_sigint() { //thats the function going to run when Ctrl + C is pressed
+    putchar('\n');
     if(iswindows){
         system("taskkill /IM wmplayer.exe /F > nul 2>&1");
     }
