@@ -10,6 +10,7 @@ int get_win_condition(int board_size) {
             printf("Invalid input. Please enter a number between 1 and %d: ", board_size);
         } else {
             win_condition=input[0]-'0';
+            fprintf(fp,"Number of marks needed to win: %d\n\n",win_condition);
             break;  // Valid input, exit loop
         }
     }

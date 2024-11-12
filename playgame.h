@@ -62,7 +62,9 @@ void playgame(char Whoseturn[200]){
             getlinecustom(input);
         }
         //Error check ends here
-        fprintf(fp,"%s placed %c to: %d %d\n",NowPlayer,now,xx,yy);
+        time(&t);
+        current_time = localtime(&t); //localizing time
+        fprintf(fp,"[%02d:%02d:%02d] %s placed %c to: %d %d\n",current_time->tm_hour,current_time->tm_min,current_time->tm_sec,NowPlayer,now,xx,yy);
 
         if(now=='X' && turnX==n){ //if we reached limit, turnX is basically equal to length/width of array then we have to remove first X
             c[Xqueue.y][Xqueue.x]=' '; // Xqueue.y/x always gonna be first X to be deletedfrom array
@@ -110,5 +112,5 @@ void playgame(char Whoseturn[200]){
     }
     printf("%s's Score:%d\n%s's Score:%d\n\n%s is the Winner!\n",Player1,Player1Score,Player2,Player2Score,NowPlayer);
 
-    fprintf(fp,"%s's Score:%d\n%s's Score:%d\n\n%s is the Winner!\n",Player1,Player1Score,Player2,Player2Score,NowPlayer);
+    fprintf(fp,"\n%s's Score:%d\n%s's Score:%d\n\n%s is the Winner!\n",Player1,Player1Score,Player2,Player2Score,NowPlayer);
 }

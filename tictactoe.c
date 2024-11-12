@@ -7,6 +7,13 @@
 #include<unistd.h> 
 #include<time.h>
 
+//time
+
+time_t t;
+struct tm *current_time;
+
+//time
+
 FILE *fp;
 
 int win_condition;
@@ -101,7 +108,16 @@ void handle_sigint() { //thats the function going to run when Ctrl + C is presse
         system("killall mpg123");
 
     }
+    time(&t);
+    current_time = localtime(&t); //localizing time
     printf("\nGoodbye!");
+    fprintf(fp,"\nGame ended! [%d-%02d-%02d %02d:%02d]\n***\n",
+    current_time->tm_year + 1900,
+    current_time->tm_mon + 1,
+    current_time->tm_mday,
+    current_time->tm_hour,                       //print out time in log file
+    current_time->tm_min
+    );
     exit(0); 
 }
 
@@ -114,16 +130,7 @@ void handle_sigint() { //thats the function going to run when Ctrl + C is presse
 
 int main(int argc,char* argv[]){
 
-    time_t t;
-    struct tm *current_time;
 
-    time(&t);
-    current_time = localtime(&t);
-
-    int hour = current_time->tm_hour;
-    char *am_pm = hour >= 12 ? "PM" : "AM"; //set if it is AM or PM according to value of hour
-    hour = hour % 12;
-    if (hour == 0) hour = 12;
 
     //remove file name from argument[0]
     int last; //gonna store last / or '\\' location digit
@@ -142,7 +149,9 @@ int main(int argc,char* argv[]){
 
     signal(SIGINT, handle_sigint); // Basically SIGINT is equal to Ctrl+C with this command,
                                    // if Ctrl+C is pressed it will run the void handle_sigint
-    wantmusic(argv); //Ask if it wants music
+    
+    wantmusic(argv); //Ask if player wants music
+    
     //GAME MODE
     printf("\nGame Mode [easy/hard]:");
     getlinecustom(input);
@@ -174,14 +183,14 @@ int main(int argc,char* argv[]){
 
 
     //Game starts
-
-    fprintf(fp,"Current Date and Time: %d-%02d-%02d %02d:%02d %s\n",
+    time(&t);
+    current_time = localtime(&t); //localizing time
+    fprintf(fp,"\n***\nGame started!  [%d-%02d-%02d %02d:%02d]\n",
            current_time->tm_year + 1900,
            current_time->tm_mon + 1,
            current_time->tm_mday,
-           hour,                        //print out time
-           current_time->tm_min,
-           am_pm);
+           current_time->tm_hour,                       //print out time in log file
+           current_time->tm_min);
 
     while(true){
         playgame(Whoseturn); //starts game with who is going to start
@@ -203,6 +212,17 @@ int main(int argc,char* argv[]){
                 system("taskkill /IM wmplayer.exe /F"); //taskkill will stop process named wmplayer.exe
             }
             printf("\nGoodbye!");
+
+            time(&t);
+            current_time = localtime(&t); //localizing time
+            fprintf(fp,"\nGame ended! [%d-%02d-%02d %02d:%02d]\n***\n",
+            current_time->tm_year + 1900,
+            current_time->tm_mon + 1,
+            current_time->tm_mday,
+            current_time->tm_hour,                       //print out time in log file
+            current_time->tm_min
+            );
+
             break;
         }
         else{ //if player decides to play again we reset everything
@@ -217,6 +237,13 @@ int main(int argc,char* argv[]){
             else{
                 strcpy(Whoseturn,Player2);
             }
+            fprintf(fp,"\nReplaying! [%d-%02d-%02d %02d:%02d]\n\n",
+            current_time->tm_year + 1900,
+            current_time->tm_mon + 1,
+            current_time->tm_mday,
+            current_time->tm_hour,                       //print out time in log file
+            current_time->tm_min
+            );
         }
     }
 }
