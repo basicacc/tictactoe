@@ -9,12 +9,12 @@ int checkifwin(char board[n][n], char player, int winCondition) {
                 int upline=1,downline=1,straightline=1,backline=1,righthorizontal=1,lefthorizontal=1;
 
                 for(int k=0;k<winCondition;k++){
-                    if(board[i+k][j]!=player) upline=0;
-                    if(board[i+k][j]!=player) downline=0;
-                    if(board[i][j+k]!=player) straightline=0;
-                    if(board[i][j-k]!=player) backline=0;
-                    if(board[i+k][j+k]!=player) righthorizontal=0;
-                    if(board[i-k][j-k]!=player) lefthorizontal=0;
+                    if(board[i+k][j]!=player || i+k==n) upline=0;
+                    if(board[i-k][j]!=player || i-k==-1) downline=0;
+                    if(board[i][j+k]!=player || j+k==n) straightline=0;
+                    if(board[i][j-k]!=player || j-k==-1) backline=0;
+                    if(board[i+k][j+k]!=player || i+k==n || j+k==n) righthorizontal=0;
+                    if(board[i-k][j-k]!=player || i-k==-1 || j-k==-1) lefthorizontal=0;
                 }
                 if(upline | downline | straightline | backline | righthorizontal | lefthorizontal) return 1;
                 
