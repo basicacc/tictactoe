@@ -110,7 +110,7 @@ void handle_sigint() { //thats the function going to run when Ctrl + C is presse
     }
     time(&t);
     current_time = localtime(&t); //localizing time
-    printf("\nGoodbye!");
+    printf("\nGoodbye!\n");
     fprintf(fp,"\nGame ended! [%d-%02d-%02d %02d:%02d]\n***\n",
     current_time->tm_year + 1900,
     current_time->tm_mon + 1,
@@ -155,11 +155,11 @@ int main(int argc,char* argv[]){
     //GAME MODE
     printf("\nGame Mode [easy/hard]:");
     getlinecustom(input);
-    while(strcmp(input,"easy") && strcmp(input,"hard")){ //strcmp will compare strings of input, it must be either easy or hard to stop loop
+    while(strcasecmp(input,"easy") && strcasecmp(input,"hard")){ //strcmp will compare strings of input, it must be either easy or hard to stop loop
         printf("\n\033[31mWrong input!!!\033[0m\n\nGame Mode [easy/hard]:"); //basically strcmp outputs different number of chars in 2 strings
         getlinecustom(input); //my custom getline function to make things easier and stable
     }
-    if(strcmp(input,"hard")==0){
+    if(strcasecmp(input,"hard")==0){
         gamemode=1; //going to change global gamemode variable to make game hard
     }
 
@@ -176,8 +176,13 @@ int main(int argc,char* argv[]){
     getlinecustom(Player2);
     while(errorforname(Player2) || !strcmp(Player1,Player2)){
 
-        printf("\n\033[31mWrong input!!! Only a/A-z/Z allowed!\033[0m\n\nPlayer 2 [name]:");
-        getlinecustom(Player2);
+        if (strcmp(Player1, Player2) == 0) {
+            printf("\n\033[31mWrong input!!! Names must be unique!\033[0m\n\nPlayer 2, please choose a different name: ");
+            getlinecustom(Player2);
+        } else {
+            printf("\n\033[31mWrong input!!! Only a/A-z/Z allowed!\033[0m\n\nPlayer 2 [name]:");
+            getlinecustom(Player2);
+        }
     }
     strcpy(Whoseturn,Player1); //Automatically makes Player1 first one to start instead of asking who is going to start
 
@@ -211,7 +216,7 @@ int main(int argc,char* argv[]){
             else if (musicstarted){
                 system("taskkill /IM wmplayer.exe /F"); //taskkill will stop process named wmplayer.exe
             }
-            printf("\nGoodbye!");
+            printf("\nGoodbye!\n");
 
             time(&t);
             current_time = localtime(&t); //localizing time

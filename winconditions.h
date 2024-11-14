@@ -7,7 +7,7 @@ int get_win_condition(int board_size) {
 
 
         if (input[1]!='\0' || input[0]<'1' || input[0]>(48+board_size)) {
-            printf("Invalid input. Please enter a number between 1 and %d: ", board_size);
+            printf("\n\033[31mInvalid input!\033[0m\n\nPlease enter a number between 1 and %d: ", board_size);
         } else {
             win_condition=input[0]-'0';
             fprintf(fp,"Number of marks needed to win: %d\n\n",win_condition);

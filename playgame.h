@@ -7,7 +7,7 @@ void playgame(char Whoseturn[200]){
                                  // dont forget whoseturn is for who is going to start first, this one for who is
                                  // going to continue
     
-    printf("Enter N:"); //length and width of tictactoe
+    printf("Enter the board size (NxN):"); //length and width of tictactoe
     getlinecustom(input); 
 
     //Error check
